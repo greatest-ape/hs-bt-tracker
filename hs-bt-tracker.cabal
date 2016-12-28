@@ -24,7 +24,9 @@ executable simple-exe
   main-is:             Main.hs
   ghc-options:         -threaded -rtsopts -with-rtsopts=-N
   build-depends:       base
+                     , binary
                      , bytestring
+                     , containers
                      , hashable
                      , lifted-base
                      , network
