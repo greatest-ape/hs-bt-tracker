@@ -11,7 +11,7 @@ import Control.Monad (replicateM, forever, forM_)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Control.Monad.IO.Class (liftIO)
 
-import Types.Server
+import Types
 import Utils
 
 
