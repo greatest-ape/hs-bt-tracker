@@ -6,6 +6,8 @@ import qualified Data.HashMap.Strict as Map
 import Control.Concurrent (ThreadId)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT)
 
+import Types.Common
+
 
 data Config = Config {
     _configServerAddress :: String,
