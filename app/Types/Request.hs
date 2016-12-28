@@ -10,19 +10,19 @@ import Data.Word (Word32)
 import Types.Common
 
 
-data RequestWrapper
-    = ConnectRequestWrapper ConnectRequest
-    | AnnounceRequestWrapper AnnounceRequest
-    | ScrapeRequestWrapper ScrapeRequest
+data Request
+    = ConnectRequest ConnectRequestInner
+    | AnnounceRequest AnnounceRequestInner
+    | ScrapeRequest ScrapeRequestInner
     | InvalidRequest
 
 
-data ConnectRequest = ConnectRequest {
+data ConnectRequestInner = ConnectRequestInner {
     _connectRequestTransactionID    :: !TransactionID
 } deriving (Show)
 
 
-data AnnounceRequest = AnnounceRequest {
+data AnnounceRequestInner = AnnounceRequestInner {
     _announceRequestConnectionID    :: !ConnectionID,
     _announceRequestTransactionID   :: !TransactionID,
     _announceRequestInfoHash        :: !InfoHash,
@@ -38,7 +38,7 @@ data AnnounceRequest = AnnounceRequest {
 } deriving (Show)
 
 
-data ScrapeRequest = ScrapeRequest {
+data ScrapeRequestInner = ScrapeRequestInner {
     _scrapeRequestConnectionID      :: !ConnectionID,
     _scrapeRequestTransactionID     :: !TransactionID,
     _scrapeRequestInfoHashes        :: ![InfoHash]

@@ -12,20 +12,20 @@ import Types.Peer
 
 
 data ResponseWrapper
-    = ConnectResponseWrapper ConnectResponse
-    | AnnounceResponseWrapper AnnounceResponse
-    | ScrapeResponseWrapper ScrapeResponse
-    | ErrorResponseWrapper ErrorResponse
+    = ConnectResponse ConnectResponseInner
+    | AnnounceResponse AnnounceResponseInner
+    | ScrapeResponse ScrapeResponseInner
+    | ErrorResponse ErrorResponseInner
     | NoResponse
 
 
-data ConnectResponse = ConnectResponse {
+data ConnectResponseInner = ConnectResponseInner {
     _connectResponseConnectionID    :: !ConnectionID,
     _connectResponseTransactionID   :: !TransactionID
 } deriving (Show)
 
 
-data AnnounceResponse = AnnounceResponse {
+data AnnounceResponseInner = AnnounceResponseInner {
     _announceResponseTransactionID  :: !TransactionID,
     _announceResponseInterval       :: !AnnounceInterval,
     _announceResponseLeechers       :: !NumberOfLeechers,
@@ -34,13 +34,13 @@ data AnnounceResponse = AnnounceResponse {
 } deriving (Show)
 
 
-data ScrapeResponse = ScrapeResponse {
+data ScrapeResponseInner = ScrapeResponseInner {
     _scrapeResponseTransactionID        :: !TransactionID,
     _scrapeResponseTorrentStatistics    :: ![TorrentScrapeStatistics]
 } deriving (Show)
 
 
-data ErrorResponse = ErrorResponse {
+data ErrorResponseInner = ErrorResponseInner {
     _errorResponseTransactionID     :: !TransactionID,
     _errorResponseMessage           :: !BS.ByteString
 } deriving (Show)
