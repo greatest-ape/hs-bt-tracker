@@ -102,7 +102,7 @@ acceptConnections socket =
 
 test :: AppM ()
 test = do
-    withTorrentMap $ Map.insert 1 [1..10]
-    withConnectionMap $ Map.insert 1 1
+    -- withTorrentMap $ Map.insert (InfoHash "") [1..10]
+    -- withConnectionMap $ Map.insert 1 1
 
     liftIO $ putStrLn "jawohl"
