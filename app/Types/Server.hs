@@ -4,7 +4,7 @@ import qualified Control.Concurrent.STM as STM
 import qualified Data.HashMap.Strict as Map
 
 import Control.Concurrent (ThreadId)
-import Control.Monad.Trans.Reader (ReaderT, runReaderT)
+import Control.Monad.Trans.Reader (ReaderT)
 
 import Types.Common
 
