@@ -7,6 +7,7 @@ module Types.Response where
 import Data.Int (Int32)
 
 import qualified Data.ByteString.Char8 as BS
+import qualified Data.Sequence as Sequence
 
 import Types.Common
 import Types.Peer
@@ -31,13 +32,13 @@ data AnnounceResponseInner = AnnounceResponseInner {
     _interval       :: !AnnounceInterval,
     _leechers       :: !NumberOfLeechers,
     _seeders        :: !NumberOfSeeders,
-    _peers          :: ![Peer]
+    _peers          :: !(Sequence.Seq Peer)
 } deriving (Show)
 
 
 data ScrapeResponseInner = ScrapeResponseInner {
     _transactionID        :: !TransactionID,
-    _torrentStatistics    :: ![TorrentScrapeStatistics]
+    _torrentStatistics    :: !(Sequence.Seq TorrentScrapeStatistics)
 } deriving (Show)
 
 

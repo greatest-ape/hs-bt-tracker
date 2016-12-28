@@ -8,6 +8,8 @@ module Types.Request where
 import Data.Int (Int32, Int64)
 import Data.Word (Word32)
 
+import qualified Data.Sequence as Sequence
+
 import Types.Common
 
 
@@ -42,7 +44,7 @@ data AnnounceRequestInner = AnnounceRequestInner {
 data ScrapeRequestInner = ScrapeRequestInner {
     _connectionID      :: !ConnectionID,
     _transactionID     :: !TransactionID,
-    _infoHashes        :: ![InfoHash]
+    _infoHashes        :: !(Sequence.Seq InfoHash)
 } deriving (Show)
 
 
