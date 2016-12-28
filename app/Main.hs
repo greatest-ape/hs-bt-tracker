@@ -33,7 +33,7 @@ main = do
 createInitialState :: Config -> IO State
 createInitialState config = State
     <$> return config
-    <*> (STM.atomically $ STM.newTVar $ TorrentMap Map.empty)
+    <*> (STM.atomically $ STM.newTVar $ TorrentMap Map.empty)
     <*> (STM.atomically $ STM.newTVar $ ConnectionMap Map.empty)
     <*> (STM.atomically $ STM.newTVar $ [])
 
