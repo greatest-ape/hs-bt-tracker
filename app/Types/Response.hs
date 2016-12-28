@@ -1,4 +1,5 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 
 -- Response and related data types
 module Types.Response where
@@ -20,29 +21,29 @@ data ResponseWrapper
 
 
 data ConnectResponseInner = ConnectResponseInner {
-    _connectResponseConnectionID    :: !ConnectionID,
-    _connectResponseTransactionID   :: !TransactionID
+    _connectionID    :: !ConnectionID,
+    _transactionID   :: !TransactionID
 } deriving (Show)
 
 
 data AnnounceResponseInner = AnnounceResponseInner {
-    _announceResponseTransactionID  :: !TransactionID,
-    _announceResponseInterval       :: !AnnounceInterval,
-    _announceResponseLeechers       :: !NumberOfLeechers,
-    _announceResponseSeeders        :: !NumberOfSeeders,
-    _announceResponsePeers          :: ![Peer]
+    _transactionID  :: !TransactionID,
+    _interval       :: !AnnounceInterval,
+    _leechers       :: !NumberOfLeechers,
+    _seeders        :: !NumberOfSeeders,
+    _peers          :: ![Peer]
 } deriving (Show)
 
 
 data ScrapeResponseInner = ScrapeResponseInner {
-    _scrapeResponseTransactionID        :: !TransactionID,
-    _scrapeResponseTorrentStatistics    :: ![TorrentScrapeStatistics]
+    _transactionID        :: !TransactionID,
+    _torrentStatistics    :: ![TorrentScrapeStatistics]
 } deriving (Show)
 
 
 data ErrorResponseInner = ErrorResponseInner {
-    _errorResponseTransactionID     :: !TransactionID,
-    _errorResponseMessage           :: !BS.ByteString
+    _transactionID     :: !TransactionID,
+    _message           :: !BS.ByteString
 } deriving (Show)
 
 
@@ -50,9 +51,9 @@ newtype AnnounceInterval = AnnounceInterval Int32
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
 
 data TorrentScrapeStatistics = TorrentScrapeStatistics {
-    _torrentScrapeStatisticsSeeders     :: NumberOfSeeders,
-    _torrentScrapeStatisticsCompleted   :: NumberOfDownloads,
-    _torrentScrapeStatisticsLeechers    :: NumberOfLeechers
+    _seeders     :: NumberOfSeeders,
+    _completed   :: NumberOfDownloads,
+    _leechers    :: NumberOfLeechers
 } deriving (Show)
 
 newtype NumberOfSeeders = NumberOfSeeders Int32

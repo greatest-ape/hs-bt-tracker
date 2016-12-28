@@ -1,3 +1,5 @@
+{-# LANGUAGE DuplicateRecordFields #-}
+
 -- Peer and related data types
 module Types.Peer where
 
@@ -7,12 +9,12 @@ import Types.Common
 
 
 data Peer = Peer {
-    _peerID           :: !PeerID,
-    _peerConnectionID :: !ConnectionID,
-    _peerIPAddress    :: !IPvXAddress,
-    _peerPort         :: !PeerPort,
-    _peerStatus       :: !PeerStatus,
-    _peerLastAnnounce :: !TimeStamp
+    _id           :: !PeerID,
+    _connectionID :: !ConnectionID,
+    _ipAddress    :: !IPvXAddress,
+    _port         :: !PeerPort,
+    _status       :: !PeerStatus,
+    _lastAnnounce :: !TimeStamp
 } deriving (Show, Eq, Ord)
 
 data PeerStatus

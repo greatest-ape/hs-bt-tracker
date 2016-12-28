@@ -1,5 +1,6 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DuplicateRecordFields #-}
 
 -- Request and related data types
 module Types.Request where
@@ -18,30 +19,30 @@ data Request
 
 
 data ConnectRequestInner = ConnectRequestInner {
-    _connectRequestTransactionID    :: !TransactionID
+    _transactionID    :: !TransactionID
 } deriving (Show)
 
 
 data AnnounceRequestInner = AnnounceRequestInner {
-    _announceRequestConnectionID    :: !ConnectionID,
-    _announceRequestTransactionID   :: !TransactionID,
-    _announceRequestInfoHash        :: !InfoHash,
-    _announceRequestPeerID          :: !PeerID,
-    _announceRequestBytesDownloaded :: !BytesDownloaded,
-    _announceRequestBytesUploaded   :: !BytesUploaded,
-    _announceRequestBytesLeft       :: !BytesLeft,
-    _announceRequestAnnounceEvent   :: !AnnounceEvent,
-    _announceRequestIPAddress       :: !IPAddress,
-    _announceRequestKey             :: !PeerKey,
-    _announceRequestPeersWanted     :: !PeersWanted,
-    _announceRequestPort            :: !PeerPort
+    _connectionID    :: !ConnectionID,
+    _transactionID   :: !TransactionID,
+    _infoHash        :: !InfoHash,
+    _peerID          :: !PeerID,
+    _bytesDownloaded :: !BytesDownloaded,
+    _bytesUploaded   :: !BytesUploaded,
+    _bytesLeft       :: !BytesLeft,
+    _announceEvent   :: !AnnounceEvent,
+    _ipAddress       :: !IPAddress,
+    _key             :: !PeerKey,
+    _peersWanted     :: !PeersWanted,
+    _port            :: !PeerPort
 } deriving (Show)
 
 
 data ScrapeRequestInner = ScrapeRequestInner {
-    _scrapeRequestConnectionID      :: !ConnectionID,
-    _scrapeRequestTransactionID     :: !TransactionID,
-    _scrapeRequestInfoHashes        :: ![InfoHash]
+    _connectionID      :: !ConnectionID,
+    _transactionID     :: !TransactionID,
+    _infoHashes        :: ![InfoHash]
 } deriving (Show)
 
 

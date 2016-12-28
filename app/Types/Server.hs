@@ -10,8 +10,8 @@ import Types.Common
 
 
 data Config = Config {
-    _configServerAddress :: String,
-    _configNumberOfThreads :: Int
+    _serverAddress :: String,
+    _numberOfThreads :: Int
 }
 
 newtype TorrentMap = TorrentMap (Map.HashMap Int [Int])

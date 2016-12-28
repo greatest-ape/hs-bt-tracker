@@ -18,8 +18,8 @@ import Utils
 main :: IO ()
 main = do
     let config = Config {
-        _configServerAddress = "localhost:8080",
-        _configNumberOfThreads = 4
+        _serverAddress = "localhost:8080",
+        _numberOfThreads = 4
     }
 
     initialState <- createInitialState config
@@ -40,7 +40,7 @@ createInitialState config = State
 
 runUDPServer :: AppM ()
 runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
-    numberOfThreads <- getConfigField _configNumberOfThreads
+    numberOfThreads <- getConfigField _numberOfThreads
 
     createdThreadIds <- replicateM numberOfThreads $
         ask >>= liftIO . forkIO . runReaderT (acceptConnections socket)
@@ -50,7 +50,7 @@ runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
 
 createSocket :: AppM Socket.Socket
 createSocket = do
-    serverAddress <- getConfigField _configServerAddress
+    serverAddress <- getConfigField _serverAddress
 
     addrInfos <- liftIO $ Socket.getAddrInfo
         (Just (Socket.defaultHints {Socket.addrFlags = [Socket.AI_PASSIVE]}))
