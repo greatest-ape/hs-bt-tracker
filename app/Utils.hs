@@ -15,6 +15,8 @@ import Control.Monad.IO.Class (liftIO)
 import Types.Server
 
 
+-- * Helpers for server state fields including STM TVars
+
 getConfigField f = f <$> asks _config
 
 
