@@ -2,7 +2,8 @@ module Utils (
     withTorrentMap,
     withConnectionMap,
     withThreadIds,
-    getThreadIds
+    getThreadIds,
+    getConfigField
 ) where
 
 import qualified Control.Concurrent.STM as STM
@@ -27,6 +28,9 @@ withThreadIds f = withStateSTMField _threadIds f
 
 getThreadIds :: AppM [ThreadId]
 getThreadIds = asks _threadIds >>= liftIO . STM.atomically . STM.readTVar
+
+
+getConfigField f = f <$> asks _config
 
 
 withStateSTMField :: (State -> STM.TVar a) -> (a -> a) -> AppM ()

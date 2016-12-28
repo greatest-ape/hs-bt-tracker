@@ -17,31 +17,45 @@ import Utils
 
 main :: IO ()
 main = do
-    initialState <- createInitialState
+    let config = Config {
+        _configServerAddress = "localhost:8080",
+        _configNumberOfThreads = 4
+    }
+
+    initialState <- createInitialState config
 
     flip runReaderT initialState $ do
-        -- Start the main UDP server threads
-        bracket createSocket killThreadsUsingSocket $ \socket -> do
-            createdThreadIds <- replicateM 4 $
-                ask >>= liftIO . forkIO . runReaderT (acceptConnections socket)
-            withThreadIds (++ createdThreadIds)
+        runUDPServer
 
     return ()
 
 
-createInitialState :: IO State
-createInitialState = State
-    <$> (STM.atomically $ STM.newTVar $ TorrentMap Map.empty)
+createInitialState :: Config -> IO State
+createInitialState config = State
+    <$> return config
+    <*> (STM.atomically $ STM.newTVar $ TorrentMap Map.empty)
     <*> (STM.atomically $ STM.newTVar $ ConnectionMap Map.empty)
     <*> (STM.atomically $ STM.newTVar $ [])
 
 
+runUDPServer :: AppM ()
+runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
+    numberOfThreads <- getConfigField _configNumberOfThreads
+
+    createdThreadIds <- replicateM numberOfThreads $
+        ask >>= liftIO . forkIO . runReaderT (acceptConnections socket)
+
+    withThreadIds (++ createdThreadIds)
+
+
 createSocket :: AppM Socket.Socket
 createSocket = do
+    serverAddress <- getConfigField _configServerAddress
+
     addrInfos <- liftIO $ Socket.getAddrInfo
         (Just (Socket.defaultHints {Socket.addrFlags = [Socket.AI_PASSIVE]}))
         Nothing
-        (Just "localhost:8000")
+        (Just serverAddress)
 
     -- Select the first option with IPv4
     let serverAddr = head $ filter (\addr -> Socket.addrFamily addr == Socket.AF_INET) addrInfos
