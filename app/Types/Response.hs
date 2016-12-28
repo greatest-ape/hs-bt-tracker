@@ -13,7 +13,7 @@ import Types.Common
 import Types.Peer
 
 
-data ResponseWrapper
+data Response
     = ConnectResponse ConnectResponseInner
     | AnnounceResponse AnnounceResponseInner
     | ScrapeResponse ScrapeResponseInner
