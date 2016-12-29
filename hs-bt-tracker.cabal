@@ -3,7 +3,7 @@ version:             0.1.0.0
 synopsis:            Haskell UDP BitTorrent tracker
 description:         Please see README.md
 homepage:            https://github.com/greatest-ape/hs-bt-tracker
-license:             GPL3
+license:             GPL-3
 license-file:        LICENSE.txt
 author:              Joakim Frostegård
 maintainer:          joakim.frostegard@gmail.com
