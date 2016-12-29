@@ -1,5 +1,6 @@
 module Utils (
     getConfigField,
+    getTorrentMap,
     withTorrentMap,
     getsConnectionMap,
     withConnectionMap,
@@ -21,6 +22,10 @@ import Types.Server
 getConfigField f = f <$> asks _config
 
 
+getTorrentMap = do
+    (TorrentMap tm) <- getStateSTMField _torrentMap
+    return tm
+
 withTorrentMap f = withStateSTMField _torrentMap $ g f
     where g f (TorrentMap tm) = TorrentMap $ f tm
 
@@ -33,11 +38,10 @@ withConnectionMap f = withStateSTMField _connectionMap $ g f
     where g f (ConnectionMap cm) = ConnectionMap $ f cm
 
 
-withThreadIds f = withStateSTMField _threadIds f
-
-
 getThreadIds :: AppM [ThreadId]
 getThreadIds = asks _threadIds >>= liftIO . STM.atomically . STM.readTVar
+
+withThreadIds f = withStateSTMField _threadIds f
 
 
 getStateSTMField :: (State -> STM.TVar a) -> AppM a
@@ -49,4 +53,3 @@ withStateSTMField :: (State -> STM.TVar a) -> (a -> a) -> AppM ()
 withStateSTMField _accessor f = do
     tVar <- asks _accessor
     liftIO $ STM.atomically $ STM.modifyTVar tVar f
-

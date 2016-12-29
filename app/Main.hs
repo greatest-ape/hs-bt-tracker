@@ -12,6 +12,7 @@ import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Control.Monad.IO.Class (liftIO)
 
 import Converters
+import Handlers
 import Types
 import Utils
 
