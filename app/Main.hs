@@ -7,7 +7,7 @@ import qualified Data.HashMap.Strict as Map
 import qualified Network.Socket as Socket hiding (send, sendTo, recv, recvFrom)
 import qualified Network.Socket.ByteString as Socket
 
-import Control.Concurrent (forkIO, killThread)
+import Control.Concurrent (forkIO, killThread, threadDelay)
 import Control.Exception.Lifted (bracket)
 import Control.Monad (replicateM, forever, forM_)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
@@ -32,6 +32,8 @@ main = do
 
     flip runReaderT initialState $ do
         runUDPServer
+
+    forever $ threadDelay $ 1000000 * 60
 
     return ()
 
