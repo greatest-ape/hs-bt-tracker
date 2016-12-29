@@ -1,13 +1,13 @@
 name:                hs-bt-tracker
 version:             0.1.0.0
-synopsis:            Initial project template from stack
+synopsis:            Haskell UDP BitTorrent tracker
 description:         Please see README.md
-homepage:            https://github.com/githubuser/simple#readme
-license:             BSD3
-license-file:        LICENSE
-author:              Author name here
-maintainer:          example@example.com
-copyright:           2016 Author name here
+homepage:            https://github.com/greatest-ape/hs-bt-tracker
+license:             GPL3
+license-file:        LICENSE.txt
+author:              Joakim Frostegård
+maintainer:          joakim.frostegard@gmail.com
+copyright:           2016-2017 Joakim Frostegård
 category:            Web
 build-type:          Simple
 extra-source-files:  README.md
