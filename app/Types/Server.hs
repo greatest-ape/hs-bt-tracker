@@ -15,9 +15,10 @@ import Types.Peer
 
 
 data Config = Config {
-    _serverPort :: Word16,
-    _numberOfThreads :: Int,
-    _announceInterval :: Int32,
+    _serverAddress      :: String,
+    _serverPort         :: Word16,
+    _numberOfThreads    :: Int,
+    _announceInterval   :: Int32,
     _maximumPeersToSend :: Int
 }
 

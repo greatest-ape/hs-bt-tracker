@@ -22,17 +22,20 @@ import Utils
 main :: IO ()
 main = do
     let config = Config {
-        _serverPort = 8080,
-        _numberOfThreads = 4,
-        _announceInterval = 3600,
+        _serverAddress      = "0.0.0.0",
+        _serverPort         = 8080,
+        _numberOfThreads    = 4,
+        _announceInterval   = 3600,
         _maximumPeersToSend = 100
     }
 
     initialState <- createInitialState config
 
     flip runReaderT initialState $ do
-        port <- getConfigField _serverPort
-        liftIO $ putStrLn $ "Starting BitTorrent server on port " ++ show port ++ ".."
+        address <- getConfigField _serverAddress
+        port    <- getConfigField _serverPort
+        liftIO $ putStrLn $
+            "Starting BitTorrent server on " ++ address ++ ":" ++ show port ++ ".."
 
         runUDPServer
 
@@ -61,11 +64,12 @@ runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
 
 createSocket :: AppM Socket.Socket
 createSocket = do
-    serverPort <- show <$> getConfigField _serverPort
+    serverAddress <- getConfigField _serverAddress
+    serverPort    <- show <$> getConfigField _serverPort
 
     addrInfos <- liftIO $ Socket.getAddrInfo
         (Just (Socket.defaultHints {Socket.addrFlags = [Socket.AI_PASSIVE]}))
-        Nothing
+        (Just serverAddress)
         (Just serverPort)
 
     -- Select the first option with IPv4
