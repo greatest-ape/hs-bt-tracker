@@ -5,7 +5,8 @@ module Utils (
     getsConnectionMap,
     withConnectionMap,
     getThreadIds,
-    withThreadIds
+    withThreadIds,
+    getTimestamp
 ) where
 
 import qualified Control.Concurrent.STM as STM
@@ -13,8 +14,9 @@ import qualified Control.Concurrent.STM as STM
 import Control.Concurrent (ThreadId)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT, asks)
 import Control.Monad.IO.Class (liftIO)
+import Data.Time.Clock.POSIX (getPOSIXTime)
 
-import Types.Server
+import Types
 
 
 -- * Helpers for server state fields including STM TVars
@@ -53,3 +55,9 @@ withStateSTMField :: (State -> STM.TVar a) -> (a -> a) -> AppM ()
 withStateSTMField _accessor f = do
     tVar <- asks _accessor
     liftIO $ STM.atomically $ STM.modifyTVar tVar f
+
+
+-- * Other helpers
+
+getTimestamp :: IO TimeStamp
+getTimestamp = TimeStamp . round <$> getPOSIXTime

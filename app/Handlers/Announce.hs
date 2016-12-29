@@ -59,7 +59,7 @@ handleAnnounceRequest innerRequest remoteAddress = do
 alterPeerAndGetPeers innerRequest address = do
     let infoHash = _infoHash (innerRequest :: AnnounceRequestInner)
 
-    timestamp <- liftIO $ getTimestamp
+    timestamp <- liftIO $ Utils.getTimestamp
 
     tVar <- asks _torrentMap
 

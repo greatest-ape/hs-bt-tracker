@@ -7,7 +7,6 @@ module Handlers.Common where
 import qualified Data.Sequence as Sequence
 import qualified Network.Socket as Socket
 
-import Data.Time.Clock.POSIX (getPOSIXTime)
 import Control.Monad (forM)
 
 import Types
@@ -23,6 +22,3 @@ getIPAddress :: Socket.SockAddr -> Maybe IPvXAddress
 getIPAddress (Socket.SockAddrInet _ address) = Just $ IPv4Address address
 getIPAddress (Socket.SockAddrInet6 _ _ address _) = Just $ IPv6Address address
 getIPAddress _ = Nothing
-
-getTimestamp :: IO TimeStamp
-getTimestamp = TimeStamp . round <$> getPOSIXTime

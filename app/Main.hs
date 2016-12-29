@@ -6,6 +6,7 @@ module Main where
 
 import qualified Control.Concurrent.STM as STM
 import qualified Data.HashMap.Strict as Map
+import qualified Data.Sequence as Sequence
 import qualified Network.Socket as Socket hiding (send, sendTo, recv, recvFrom)
 import qualified Network.Socket.ByteString as Socket
 
@@ -25,11 +26,18 @@ import Types
 main :: IO ()
 main = do
     let config = Config {
-        _serverAddress      = "0.0.0.0",
-        _serverPort         = 8080,
-        _numberOfThreads    = 4,
-        _announceInterval   = 3600,
-        _maximumPeersToSend = 100
+        _serverAddress             = "0.0.0.0",
+        _serverPort                = 8080,
+        _numberOfThreads           = 4,
+
+        _announceInterval          = 3600,
+        _maximumPeersToSend        = 100,
+
+        _connectionMaxAge          = 600,
+        _connectionPruneInterval   = 60,
+
+        _peerMaxAge                = 600,
+        _peerPruneInterval         = 60
     }
 
     initialState <- createInitialState config
@@ -42,7 +50,10 @@ main = do
 
         runUDPServer
 
-    forever $ threadDelay $ 1000000 * 60
+        forkAppM pruneConnections
+        forkAppM prunePeers
+
+    forever $ threadDelaySeconds 60
 
     return ()
 
@@ -60,7 +71,7 @@ runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
     numberOfThreads <- Utils.getConfigField _numberOfThreads
 
     createdThreadIds <- replicateM numberOfThreads $
-        ask >>= liftIO . forkIO . runReaderT (acceptConnections socket)
+        forkAppM (acceptConnections socket)
 
     Utils.withThreadIds (++ createdThreadIds)
 
@@ -112,3 +123,34 @@ acceptConnections socket =
                  Handlers.handleRequest request remoteAddress
 
         liftIO $ Socket.sendTo socket (Converters.responseToBytes response) remoteAddress
+
+
+pruneConnections :: AppM ()
+pruneConnections = forever $ do
+    connectionMaxAge        <- Utils.getConfigField _connectionMaxAge
+    connectionPruneInterval <- Utils.getConfigField _connectionPruneInterval
+
+    timestampLimit <- (\(TimeStamp t) -> TimeStamp $ t - connectionMaxAge) <$> liftIO Utils.getTimestamp
+
+    Utils.withConnectionMap $
+        Map.filter (\t -> t > timestampLimit)
+
+    liftIO $ threadDelaySeconds connectionPruneInterval
+
+
+prunePeers :: AppM ()
+prunePeers = forever $ do
+    peerMaxAge        <- Utils.getConfigField _peerMaxAge
+    peerPruneInterval <- Utils.getConfigField _peerPruneInterval
+
+    timestampLimit <- (\(TimeStamp t) -> TimeStamp $ t - peerMaxAge) <$> liftIO Utils.getTimestamp
+
+    Utils.withTorrentMap $
+        Map.map (Sequence.filter (\peer -> _lastAnnounce peer > timestampLimit))
+
+    liftIO $ threadDelaySeconds peerPruneInterval
+
+
+forkAppM f = ask >>= liftIO . forkIO . runReaderT f
+
+threadDelaySeconds n = threadDelay $ 1000000 * n

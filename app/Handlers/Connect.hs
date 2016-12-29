@@ -26,7 +26,7 @@ handleConnectRequest innerRequest remoteAddress = do
     case getIPAddress remoteAddress of
         Just address -> do
             connectionID <- ConnectionID <$> (liftIO randomIO :: AppM Int64)
-            timestamp    <- liftIO $ getTimestamp
+            timestamp    <- liftIO $ Utils.getTimestamp
             Utils.withConnectionMap $ Map.insert (ConnectionMapKey connectionID address) timestamp
 
             return $ ConnectResponse $ ConnectResponseInner connectionID transactionID
