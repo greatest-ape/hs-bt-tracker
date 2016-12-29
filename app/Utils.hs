@@ -26,17 +26,14 @@ import Types
 getConfigField f = f <$> asks _config
 
 
-getTorrentMap = do
-    (TorrentMap tm) <- getStateSTMField _torrentMap
-    return tm
+getTorrentMap = (\(TorrentMap tm) -> tm) <$> getStateSTMField _torrentMap
 
 withTorrentMap f = withStateSTMField _torrentMap $ g f
     where g f (TorrentMap tm) = TorrentMap $ f tm
 
 
-getsConnectionMap f = do
-    (ConnectionMap cm) <- getStateSTMField _connectionMap
-    return $ f cm
+getsConnectionMap f =
+    (\(ConnectionMap cm) -> f cm) <$> getStateSTMField _connectionMap
 
 withConnectionMap f = withStateSTMField _connectionMap $ g f
     where g f (ConnectionMap cm) = ConnectionMap $ f cm
