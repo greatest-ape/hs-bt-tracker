@@ -75,7 +75,7 @@ bytesToResponse byteString = (flip Binary.runGetOrFail) (LBS.fromStrict byteStri
                     _ipAddress = ipAddress,
                     _port = port,
                     _status = PeerLeeching,
-                    _lastAnnounce = TimeStamp 1
+                    _lastAnnounce = Timestamp 1
                 }
 
             return $ AnnounceResponse $ AnnounceResponseInner {

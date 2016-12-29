@@ -2,7 +2,6 @@
   - Read config from a file
   - Add config file location as a command line argument
   - Maximum accepted torrents in scrape request?
-  - TimeStamp -> Timestamp
 
 # Less important
   - Handle word/int size protocol discrepancies

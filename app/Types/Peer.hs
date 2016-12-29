@@ -14,7 +14,7 @@ data Peer = Peer {
     _ipAddress    :: !IPAddress,
     _port         :: !PeerPort,
     _status       :: !PeerStatus,
-    _lastAnnounce :: !TimeStamp
+    _lastAnnounce :: !Timestamp
 } deriving (Show, Eq, Ord)
 
 data PeerStatus

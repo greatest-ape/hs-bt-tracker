@@ -38,7 +38,7 @@ data ConnectionMapKey = ConnectionMapKey !ConnectionID !IPAddress
 instance Hashable ConnectionMapKey where
     hashWithSalt salt (ConnectionMapKey (ConnectionID n) (IPAddress m)) = hashWithSalt salt (n, m)
 
-newtype ConnectionMap = ConnectionMap (Map.HashMap ConnectionMapKey TimeStamp)
+newtype ConnectionMap = ConnectionMap (Map.HashMap ConnectionMapKey Timestamp)
     deriving (Show)
 
 data State = State {

@@ -61,8 +61,8 @@ withStateSTMField _accessor f = do
 
 -- * Other helpers
 
-getTimestamp :: IO TimeStamp
-getTimestamp = TimeStamp . round <$> getPOSIXTime
+getTimestamp :: IO Timestamp
+getTimestamp = Timestamp . round <$> getPOSIXTime
 
 
 forkAppM :: AppM () -> AppM ThreadId

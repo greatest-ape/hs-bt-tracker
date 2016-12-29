@@ -77,7 +77,7 @@ alterPeerAndGetPeers innerRequest address = do
 -- Update a peer in a peer list, or if it is not currently present, insert it
 -- Returns the list and the peer
 alterPeerSequence
-    :: TimeStamp
+    :: Timestamp
     -> IPAddress
     -> AnnounceRequestInner
     -> Maybe (Sequence.Seq Peer)
@@ -124,7 +124,7 @@ alterPeerSequence timestamp ipAddress innerRequest maybePeers =
                 )
 
 
-createPeer :: TimeStamp -> IPAddress -> AnnounceRequestInner -> PeerStatus -> Peer
+createPeer :: Timestamp -> IPAddress -> AnnounceRequestInner -> PeerStatus -> Peer
 createPeer timestamp ipAddress innerRequest defaultStatus =
     let AnnounceRequestInner {..} = innerRequest in Peer {
         _id             = _peerID,

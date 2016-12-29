@@ -10,7 +10,7 @@ import Data.Int (Int32, Int64)
 import Data.Word (Word16, Word32)
 
 
-newtype TimeStamp = TimeStamp Integer
+newtype Timestamp = Timestamp Integer
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
 
 
