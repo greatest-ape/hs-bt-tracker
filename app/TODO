@@ -1,0 +1,2 @@
+  - Does the scrape response return peer stats in the same order as the info
+    hashes were received?
