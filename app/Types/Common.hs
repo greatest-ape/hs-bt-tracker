@@ -3,11 +3,11 @@
 -- General data types and instances
 module Types.Common where
 
+import qualified Data.ByteString.Char8 as BS
+
 import Data.Hashable (Hashable, hashWithSalt)
 import Data.Int (Int32, Int64)
 import Data.Word (Word16, Word32)
-
-import qualified Data.ByteString.Char8 as BS
 
 
 newtype TimeStamp = TimeStamp Integer

@@ -3,13 +3,13 @@
 
 module Converters.Responses where
 
-import Data.Word (Word32)
-import Control.Monad (forM_)
-
 import qualified Data.Binary.Get as Binary
 import qualified Data.Binary.Put as Binary
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy as LBS
+
+import Data.Word (Word32)
+import Control.Monad (forM_)
 
 import Types
 import Converters.Common

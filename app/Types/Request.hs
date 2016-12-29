@@ -5,10 +5,10 @@
 -- Request and related data types
 module Types.Request where
 
+import qualified Data.Sequence as Sequence
+
 import Data.Int (Int32, Int64)
 import Data.Word (Word32)
-
-import qualified Data.Sequence as Sequence
 
 import Types.Common
 
