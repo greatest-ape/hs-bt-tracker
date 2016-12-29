@@ -10,10 +10,10 @@ import qualified Data.Sequence as Sequence
 import qualified Network.Socket as Socket hiding (send, sendTo, recv, recvFrom)
 import qualified Network.Socket.ByteString as Socket
 
-import Control.Concurrent (forkIO, killThread, threadDelay)
+import Control.Concurrent (killThread)
 import Control.Exception.Lifted (bracket)
 import Control.Monad (replicateM, forever, forM_)
-import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
+import Control.Monad.Trans.Reader (ReaderT, runReaderT)
 import Control.Monad.IO.Class (liftIO)
 
 import qualified Converters
@@ -50,10 +50,10 @@ main = do
 
         runUDPServer
 
-        forkAppM pruneConnections
-        forkAppM prunePeers
+        Utils.forkAppM pruneConnections
+        Utils.forkAppM prunePeers
 
-    forever $ threadDelaySeconds 60
+    forever $ Utils.threadDelaySeconds 60
 
     return ()
 
@@ -71,7 +71,7 @@ runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
     numberOfThreads <- Utils.getConfigField _numberOfThreads
 
     createdThreadIds <- replicateM numberOfThreads $
-        forkAppM (acceptConnections socket)
+        Utils.forkAppM (acceptConnections socket)
 
     Utils.withThreadIds (++ createdThreadIds)
 
@@ -135,7 +135,7 @@ pruneConnections = forever $ do
     Utils.withConnectionMap $
         Map.filter (\t -> t > timestampLimit)
 
-    liftIO $ threadDelaySeconds connectionPruneInterval
+    liftIO $ Utils.threadDelaySeconds connectionPruneInterval
 
 
 prunePeers :: AppM ()
@@ -148,9 +148,4 @@ prunePeers = forever $ do
     Utils.withTorrentMap $
         Map.map (Sequence.filter (\peer -> _lastAnnounce peer > timestampLimit))
 
-    liftIO $ threadDelaySeconds peerPruneInterval
-
-
-forkAppM f = ask >>= liftIO . forkIO . runReaderT f
-
-threadDelaySeconds n = threadDelay $ 1000000 * n
+    liftIO $ Utils.threadDelaySeconds peerPruneInterval

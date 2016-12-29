@@ -6,13 +6,15 @@ module Utils (
     withConnectionMap,
     getThreadIds,
     withThreadIds,
-    getTimestamp
+    getTimestamp,
+    forkAppM,
+    threadDelaySeconds
 ) where
 
 import qualified Control.Concurrent.STM as STM
 
-import Control.Concurrent (ThreadId)
-import Control.Monad.Trans.Reader (ReaderT, runReaderT, asks)
+import Control.Concurrent (ThreadId, forkIO, threadDelay)
+import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Control.Monad.IO.Class (liftIO)
 import Data.Time.Clock.POSIX (getPOSIXTime)
 
@@ -61,3 +63,11 @@ withStateSTMField _accessor f = do
 
 getTimestamp :: IO TimeStamp
 getTimestamp = TimeStamp . round <$> getPOSIXTime
+
+
+forkAppM :: AppM () -> AppM ThreadId
+forkAppM f = ask >>= liftIO . forkIO . runReaderT f
+
+
+threadDelaySeconds :: Int -> IO ()
+threadDelaySeconds n = threadDelay $ 1000000 * n
