@@ -15,8 +15,9 @@ import Control.Monad.IO.Class (liftIO)
 
 import qualified Converters
 import qualified Handlers
+import qualified Utils
+
 import Types
-import Utils
 
 
 main :: IO ()
@@ -32,8 +33,8 @@ main = do
     initialState <- createInitialState config
 
     flip runReaderT initialState $ do
-        address <- getConfigField _serverAddress
-        port    <- getConfigField _serverPort
+        address <- Utils.getConfigField _serverAddress
+        port    <- Utils.getConfigField _serverPort
         liftIO $ putStrLn $
             "Starting BitTorrent server on " ++ address ++ ":" ++ show port ++ ".."
 
@@ -54,18 +55,18 @@ createInitialState config = State
 
 runUDPServer :: AppM ()
 runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
-    numberOfThreads <- getConfigField _numberOfThreads
+    numberOfThreads <- Utils.getConfigField _numberOfThreads
 
     createdThreadIds <- replicateM numberOfThreads $
         ask >>= liftIO . forkIO . runReaderT (acceptConnections socket)
 
-    withThreadIds (++ createdThreadIds)
+    Utils.withThreadIds (++ createdThreadIds)
 
 
 createSocket :: AppM Socket.Socket
 createSocket = do
-    serverAddress <- getConfigField _serverAddress
-    serverPort    <- show <$> getConfigField _serverPort
+    serverAddress <- Utils.getConfigField _serverAddress
+    serverPort    <- show <$> Utils.getConfigField _serverPort
 
     addrInfos <- liftIO $ Socket.getAddrInfo
         (Just (Socket.defaultHints {Socket.addrFlags = [Socket.AI_PASSIVE]}))
@@ -88,7 +89,7 @@ createSocket = do
 
 killThreadsUsingSocket :: Socket.Socket -> AppM ()
 killThreadsUsingSocket socket = do
-    threadIds <- getThreadIds
+    threadIds <- Utils.getThreadIds
 
     liftIO $ do
         forM_ threadIds killThread

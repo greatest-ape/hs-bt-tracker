@@ -8,11 +8,11 @@ module Handlers (
 import qualified Data.HashMap.Strict as Map
 import qualified Network.Socket as Socket
 
+import qualified Utils
+
 import Types
-import Utils
 
 import Handlers.Common
-
 import Handlers.Announce
 import Handlers.Connect
 import Handlers.Scrape
@@ -62,5 +62,6 @@ ifConnectionEstablished remoteAddress transactionID connectionID otherwise = do
 checkConnectionEstablished :: ConnectionID -> Socket.SockAddr -> AppM Bool
 checkConnectionEstablished connectionID remoteAddress = do
     case getIPAddress remoteAddress of
-        Just address -> getsConnectionMap $ Map.member (ConnectionMapKey connectionID address)
+        Just address -> Utils.getsConnectionMap $
+            Map.member (ConnectionMapKey connectionID address)
         Nothing -> return False

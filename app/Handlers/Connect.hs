@@ -12,8 +12,9 @@ import Control.Monad.IO.Class (liftIO)
 import Data.Int (Int64)
 import System.Random (randomIO)
 
+import qualified Utils
+
 import Types
-import Utils
 
 import Handlers.Common
 
@@ -26,7 +27,7 @@ handleConnectRequest innerRequest remoteAddress = do
         Just address -> do
             connectionID <- ConnectionID <$> (liftIO randomIO :: AppM Int64)
             timestamp    <- liftIO $ getTimestamp
-            withConnectionMap $ Map.insert (ConnectionMapKey connectionID address) timestamp
+            Utils.withConnectionMap $ Map.insert (ConnectionMapKey connectionID address) timestamp
 
             return $ ConnectResponse $ ConnectResponseInner connectionID transactionID
         Nothing ->

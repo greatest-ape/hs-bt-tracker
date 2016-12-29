@@ -17,8 +17,9 @@ import Data.Array.IO (readArray, writeArray, newListArray, IOArray)
 import Data.Foldable (toList)
 import System.Random (randomIO, randomRIO)
 
+import qualified Utils
+
 import Types
-import Utils
 
 import Handlers.Common
 
@@ -33,7 +34,7 @@ handleAnnounceRequest innerRequest remoteAddress = do
             (processedPeers, currentPeer) <- alterPeerAndGetPeers innerRequest address
             -- Return stats and all peers for this torrent from the TorrentMap
             peers <- filterPeers processedPeers currentPeer peersWanted
-            announceInterval <- getConfigField _announceInterval
+            announceInterval <- Utils.getConfigField _announceInterval
 
             return $ AnnounceResponse $ AnnounceResponseInner {
                 _transactionID  = transactionID,
@@ -149,7 +150,7 @@ getPeerStatus announceEvent bytesLeft defaultStatus
 -- Determine what peers should be sent to the current peer
 filterPeers :: Sequence.Seq Peer -> Peer -> PeersWanted -> AppM (Sequence.Seq Peer)
 filterPeers processedPeers currentPeer peersWanted = do
-    maximumPeersToSend <- getConfigField _maximumPeersToSend
+    maximumPeersToSend <- Utils.getConfigField _maximumPeersToSend
 
     let peersWanted' = fromIntegral peersWanted
         peersToSend =

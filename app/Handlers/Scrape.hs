@@ -8,8 +8,9 @@ module Handlers.Scrape (
 import qualified Data.HashMap.Strict as Map
 import qualified Data.Sequence as Sequence
 
+import qualified Utils
+
 import Types
-import Utils
 
 import Handlers.Common
 
@@ -29,7 +30,7 @@ handleScrapeRequest innerRequest = do
 
 getPeerLists :: Sequence.Seq InfoHash -> AppM (Sequence.Seq (Sequence.Seq Peer))
 getPeerLists infoHashes = do
-    tm <- getTorrentMap
+    tm <- Utils.getTorrentMap
     return $ foldr (f tm) Sequence.empty infoHashes
 
     where
