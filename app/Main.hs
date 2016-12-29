@@ -44,13 +44,13 @@ main = do
         _serverPort                = 8080,
         _numberOfThreads           = 4,
 
-        _announceInterval          = 3600,
+        _announceInterval          = 1800,
         _maximumPeersToSend        = 100,
 
-        _connectionMaxAge          = 600,
-        _connectionPruneInterval   = 60,
+        _connectionMaxAge          = 300,
+        _connectionPruneInterval   = 30,
 
-        _peerMaxAge                = 600,
+        _peerMaxAge                = 2000,
         _peerPruneInterval         = 60
     }
 
