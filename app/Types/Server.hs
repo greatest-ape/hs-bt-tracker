@@ -7,6 +7,7 @@ import qualified Data.Sequence as Sequence
 import Control.Concurrent (ThreadId)
 import Control.Monad.Trans.Reader (ReaderT)
 import Data.Hashable (Hashable, hashWithSalt)
+import Data.Int (Int32)
 
 import Types.Common
 import Types.Peer
@@ -14,7 +15,8 @@ import Types.Peer
 
 data Config = Config {
     _serverAddress :: String,
-    _numberOfThreads :: Int
+    _numberOfThreads :: Int,
+    _announceInterval :: Int32
 }
 
 newtype TorrentMap = TorrentMap (Map.HashMap InfoHash (Sequence.Seq Peer))

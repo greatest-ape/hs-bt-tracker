@@ -31,9 +31,11 @@ handleAnnounceRequest innerRequest remoteAddress = do
 
             peers <- return processedPeers
 
+            announceInterval <- getConfigField _announceInterval
+
             return $ AnnounceResponse $ AnnounceResponseInner {
                 _transactionID  = transactionID,
-                _interval       = 600, -- TODO SETTINGS
+                _interval       = AnnounceInterval announceInterval,
                 _leechers       = fromIntegral $ countLeechers peers,
                 _seeders        = fromIntegral $ countSeeders peers,
                 _peers          = peers

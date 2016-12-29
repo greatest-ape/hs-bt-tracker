@@ -21,7 +21,8 @@ main :: IO ()
 main = do
     let config = Config {
         _serverAddress = "localhost:8080",
-        _numberOfThreads = 4
+        _numberOfThreads = 4,
+        _announceInterval = 3600
     }
 
     initialState <- createInitialState config
