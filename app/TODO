@@ -1,2 +1,13 @@
+# Important
+  - Remove all IPv6 support, especially from types used
+  - Add pruning of maps
+  - Read config from a file
+  - Add config file location as a command line argument
+  - Maximum accepted torrents in scrape request?
+
+# Less important
+  - Add QuickCheck tests
+  - Use utils for all AppM reader access operations (see announce handler)
+  - Add benchmarking
   - Does the scrape response return peer stats in the same order as the info
     hashes were received?
