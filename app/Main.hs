@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Main where
 
 import qualified Control.Concurrent.STM as STM
@@ -11,8 +13,8 @@ import Control.Monad (replicateM, forever, forM_)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Control.Monad.IO.Class (liftIO)
 
-import Converters
-import Handlers
+import qualified Converters
+import qualified Handlers
 import Types
 import Utils
 
@@ -91,21 +93,10 @@ acceptConnections socket =
     forever $ do
         (requestBytes, remoteAddress) <- liftIO $ Socket.recvFrom socket 2048
 
-        request       <- convertBytesToRequest requestBytes
-        response      <- handleRequest request
-        responseBytes <- convertResponseToBytes response
+        response <- case Converters.bytesToRequest requestBytes of
+            Left (unconsumedByteString, consumedBytes, errorMessage) ->
+                return $ ErrorResponse $ ErrorResponseInner (TransactionID 0) "Invalid request"
+            Right (_, _, request) ->
+                 Handlers.handleRequest request remoteAddress
 
-        liftIO $ Socket.sendTo socket responseBytes remoteAddress
-
-    where
-        convertBytesToRequest bytes = undefined
-        handleRequest request = undefined
-        convertResponseToBytes response = undefined
-
-
-test :: AppM ()
-test = do
-    -- withTorrentMap $ Map.insert (InfoHash "") [1..10]
-    -- withConnectionMap $ Map.insert 1 1
-
-    liftIO $ putStrLn "jawohl"
+        liftIO $ Socket.sendTo socket (Converters.responseToBytes response) remoteAddress
