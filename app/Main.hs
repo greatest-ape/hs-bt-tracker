@@ -31,6 +31,9 @@ main = do
     initialState <- createInitialState config
 
     flip runReaderT initialState $ do
+        port <- getConfigField _serverPort
+        liftIO $ putStrLn $ "Starting BitTorrent server on port " ++ show port ++ ".."
+
         runUDPServer
 
     forever $ threadDelay $ 1000000 * 60
