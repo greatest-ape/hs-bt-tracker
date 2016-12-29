@@ -8,13 +8,14 @@ import Control.Concurrent (ThreadId)
 import Control.Monad.Trans.Reader (ReaderT)
 import Data.Hashable (Hashable, hashWithSalt)
 import Data.Int (Int32)
+import Data.Word (Word16)
 
 import Types.Common
 import Types.Peer
 
 
 data Config = Config {
-    _serverAddress :: String,
+    _serverPort :: Word16,
     _numberOfThreads :: Int,
     _announceInterval :: Int32,
     _maximumPeersToSend :: Int

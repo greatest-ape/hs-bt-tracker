@@ -22,7 +22,7 @@ import Utils
 main :: IO ()
 main = do
     let config = Config {
-        _serverAddress = "localhost:8080",
+        _serverPort = 8080,
         _numberOfThreads = 4,
         _announceInterval = 3600,
         _maximumPeersToSend = 100
@@ -58,12 +58,12 @@ runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
 
 createSocket :: AppM Socket.Socket
 createSocket = do
-    serverAddress <- getConfigField _serverAddress
+    serverPort <- show <$> getConfigField _serverPort
 
     addrInfos <- liftIO $ Socket.getAddrInfo
         (Just (Socket.defaultHints {Socket.addrFlags = [Socket.AI_PASSIVE]}))
         Nothing
-        (Just serverAddress)
+        (Just serverPort)
 
     -- Select the first option with IPv4
     let serverAddr = head $ filter (\addr -> Socket.addrFamily addr == Socket.AF_INET) addrInfos
