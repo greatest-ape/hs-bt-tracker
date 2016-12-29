@@ -11,7 +11,11 @@ import qualified Network.Socket as Socket
 import qualified Control.Concurrent.STM as STM
 
 import Control.Monad.Trans.Reader (asks)
+import Control.Monad (forM)
 import Control.Monad.IO.Class (liftIO)
+import Data.Array.IO (readArray, writeArray, newListArray, IOArray)
+import Data.Foldable (toList)
+import System.Random (randomIO, randomRIO)
 
 import Types
 import Utils
@@ -22,15 +26,13 @@ import Handlers.Common
 handleAnnounceRequest :: AnnounceRequestInner -> Socket.SockAddr -> AppM Response
 handleAnnounceRequest innerRequest remoteAddress = do
     let transactionID = _transactionID (innerRequest :: AnnounceRequestInner)
+    let peersWanted   = _peersWanted   (innerRequest :: AnnounceRequestInner)
 
     case determineIPAddress innerRequest remoteAddress of
         Just address -> do
             (processedPeers, currentPeer) <- alterPeerAndGetPeers innerRequest address
             -- Return stats and all peers for this torrent from the TorrentMap
-            -- filteredPeers <- filterPeers processedPeers currentPeer peersWanted
-
-            peers <- return processedPeers
-
+            peers <- filterPeers processedPeers currentPeer peersWanted
             announceInterval <- getConfigField _announceInterval
 
             return $ AnnounceResponse $ AnnounceResponseInner {
@@ -143,22 +145,59 @@ getPeerStatus announceEvent bytesLeft defaultStatus
     | otherwise                                 = defaultStatus
 
 
-{--
+
 -- Determine what peers should be sent to the current peer
-filterPeers :: Sequence.Seq Peer -> Peer -> PeersWanted -> IO (Sequence.Seq Peer)
+filterPeers :: Sequence.Seq Peer -> Peer -> PeersWanted -> AppM (Sequence.Seq Peer)
 filterPeers processedPeers currentPeer peersWanted = do
+    maximumPeersToSend <- getConfigField _maximumPeersToSend
+
     let peersWanted' = fromIntegral peersWanted
-        peersToSend = if peersWanted' > 0 then peersWanted' else settingMaximumPeersToSend
+        peersToSend =
+            if peersWanted' < maximumPeersToSend && peersWanted' > 0
+                then peersWanted'
+                else maximumPeersToSend
+
         nonCurrentPeers = Sequence.filter (/= currentPeer) processedPeers
-        leechers = Sequence.filter (\peer -> _peerStatus peer == PeerLeeching) nonCurrentPeers
-        seeders = Sequence.filter (\peer -> _peerStatus peer == PeerSeeding) nonCurrentPeers
+        leechers = Sequence.filter (\peer -> _status (peer :: Peer) == PeerLeeching) nonCurrentPeers
+        seeders  = Sequence.filter (\peer -> _status (peer :: Peer) == PeerSeeding) nonCurrentPeers
+
     if Sequence.length nonCurrentPeers <= peersWanted'
+        -- If less peers exist than the number supposed to be sent, just send
+        -- all of them (no selection, mixing etc)
         then return nonCurrentPeers
-        else Sequence.take peersToSend <$> case _peerStatus currentPeer of
+
+        -- Otherwise, send a specific selection bases on the status of the
+        -- requesting peer
+        else Sequence.take peersToSend <$> case _status (currentPeer :: Peer) of
             -- Leechers should be sent a pseudorandom mix of seeders and leechers
-            PeerLeeching -> Sequence.fromList <$> (shuffleList $ toList $ mixSequences seeders leechers)
+            PeerLeeching -> Sequence.fromList <$>
+                (liftIO $ shuffleList $ toList $ mixSequences seeders leechers)
 
             -- Seeders should mainly be sent leechers. For stopped peers,
             -- it doesn't matter what is sent
             _ -> return $ leechers Sequence.>< seeders
--}
+
+
+-- Mix elements from two sequences
+mixSequences (Sequence.viewl -> x Sequence.:< xs) (Sequence.viewl -> y Sequence.:< ys) =
+     x Sequence.<| y Sequence.<| mixSequences xs ys
+mixSequences (Sequence.viewl -> Sequence.EmptyL) ys = ys
+mixSequences xs (Sequence.viewl -> Sequence.EmptyL) = xs
+
+
+-- | Randomly shuffle a list
+--   /O(N)/
+--   from https://wiki.haskell.org/Random_shuffle
+shuffleList :: [a] -> IO [a]
+shuffleList xs = do
+    ar <- newArray n xs
+    forM [1..n] $ \i -> do
+        j <- randomRIO (i,n)
+        vi <- readArray ar i
+        vj <- readArray ar j
+        writeArray ar j vi
+        return vj
+    where
+        n = length xs
+        newArray :: Int -> [a] -> IO (IOArray Int a)
+        newArray n xs =  newListArray (1,n) xs

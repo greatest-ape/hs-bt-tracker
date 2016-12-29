@@ -16,7 +16,8 @@ import Types.Peer
 data Config = Config {
     _serverAddress :: String,
     _numberOfThreads :: Int,
-    _announceInterval :: Int32
+    _announceInterval :: Int32,
+    _maximumPeersToSend :: Int
 }
 
 newtype TorrentMap = TorrentMap (Map.HashMap InfoHash (Sequence.Seq Peer))

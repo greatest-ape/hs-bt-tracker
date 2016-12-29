@@ -22,7 +22,8 @@ main = do
     let config = Config {
         _serverAddress = "localhost:8080",
         _numberOfThreads = 4,
-        _announceInterval = 3600
+        _announceInterval = 3600,
+        _maximumPeersToSend = 100
     }
 
     initialState <- createInitialState config
