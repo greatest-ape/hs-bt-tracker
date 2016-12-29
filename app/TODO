@@ -2,9 +2,9 @@
   - Read config from a file
   - Add config file location as a command line argument
   - Maximum accepted torrents in scrape request?
+  - Handle word/int size protocol discrepancies
 
 # Less important
-  - Handle word/int size protocol discrepancies
   - Add QuickCheck tests
   - Use utils for all AppM reader access operations (see announce handler)
   - Does the scrape response return peer stats in the same order as the info
