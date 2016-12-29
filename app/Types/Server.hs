@@ -32,11 +32,11 @@ data Config = Config {
 newtype TorrentMap = TorrentMap (Map.HashMap InfoHash (Sequence.Seq Peer))
     deriving (Show)
 
-data ConnectionMapKey = ConnectionMapKey !ConnectionID !IPvXAddress
+data ConnectionMapKey = ConnectionMapKey !ConnectionID !IPAddress
     deriving (Show, Eq, Ord)
 
 instance Hashable ConnectionMapKey where
-    hashWithSalt salt (ConnectionMapKey (ConnectionID n) (IPv4Address m)) = hashWithSalt salt (n, m)
+    hashWithSalt salt (ConnectionMapKey (ConnectionID n) (IPAddress m)) = hashWithSalt salt (n, m)
 
 newtype ConnectionMap = ConnectionMap (Map.HashMap ConnectionMapKey TimeStamp)
     deriving (Show)

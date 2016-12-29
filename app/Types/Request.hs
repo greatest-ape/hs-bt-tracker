@@ -65,8 +65,5 @@ newtype BytesLeft = BytesLeft Int64
 newtype BytesUploaded = BytesUploaded Int64
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
 
-newtype IPAddress = IPAddress Word32
-    deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
-
 newtype PeersWanted = PeersWanted Int32
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)

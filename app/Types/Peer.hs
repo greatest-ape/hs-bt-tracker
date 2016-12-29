@@ -11,7 +11,7 @@ import Types.Common
 data Peer = Peer {
     _id           :: !PeerID,
     _connectionID :: !ConnectionID,
-    _ipAddress    :: !IPvXAddress,
+    _ipAddress    :: !IPAddress,
     _port         :: !PeerPort,
     _status       :: !PeerStatus,
     _lastAnnounce :: !TimeStamp
@@ -23,11 +23,3 @@ data PeerStatus
     | PeerStopped
 
     deriving (Show, Eq, Ord)
-
-data IPvXAddress
-    = IPv4Address !Word32
-    | IPv6Address !(Word32, Word32, Word32, Word32)
-
-    deriving (Show, Eq, Ord)
-
-

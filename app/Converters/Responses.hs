@@ -29,9 +29,8 @@ responseToBytes response = LBS.toStrict $ Binary.runPut $ case response of
         Binary.putInt32be $ fromIntegral $ _seeders (responseInner :: AnnounceResponseInner)
 
         forM_ (_peers (responseInner :: AnnounceResponseInner)) $ \peer -> do
-            case _ipAddress (peer :: Peer) of
-                IPv4Address n -> Binary.putWord32be $ fromIntegral n
-            Binary.putWord16be $ fromIntegral $ _port (peer :: Peer)
+            Binary.putWord32be $ fromIntegral $ _ipAddress (peer :: Peer)
+            Binary.putWord16be $ fromIntegral $ _port      (peer :: Peer)
 
     ScrapeResponse responseInner -> do
         encodeActionAndTransactionID 2 $ _transactionID (responseInner :: ScrapeResponseInner)
@@ -67,7 +66,7 @@ bytesToResponse byteString = (flip Binary.runGetOrFail) (LBS.fromStrict byteStri
             leechers <- NumberOfLeechers . fromIntegral <$> Binary.getWord32be
             seeders <- NumberOfSeeders . fromIntegral <$> Binary.getWord32be
             peers <- binaryGetMany $ do
-                ipAddress <- IPv4Address <$> Binary.getWord32be
+                ipAddress <- IPAddress <$> Binary.getWord32be
                 port <- PeerPort <$> Binary.getWord16be
 
                 return Peer {

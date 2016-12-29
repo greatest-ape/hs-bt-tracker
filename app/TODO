@@ -1,5 +1,4 @@
 # Important
-  - Remove all IPv6 support, especially from types used
   - Read config from a file
   - Add config file location as a command line argument
   - Maximum accepted torrents in scrape request?

@@ -18,7 +18,6 @@ countLeechers peers = Sequence.length $ Sequence.filter (== PeerLeeching) $ fmap
 countSeeders :: Sequence.Seq Peer -> Int
 countSeeders peers = Sequence.length $ Sequence.filter (== PeerSeeding) $ fmap _status peers
 
-getIPAddress :: Socket.SockAddr -> Maybe IPvXAddress
-getIPAddress (Socket.SockAddrInet _ address) = Just $ IPv4Address address
-getIPAddress (Socket.SockAddrInet6 _ _ address _) = Just $ IPv6Address address
-getIPAddress _ = Nothing
+getIPAddress :: Socket.SockAddr -> Maybe IPAddress
+getIPAddress (Socket.SockAddrInet _ address) = Just $ IPAddress address
+getIPAddress _                               = Nothing

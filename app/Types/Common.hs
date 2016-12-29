@@ -39,3 +39,7 @@ newtype PeerKey = PeerKey Word32
 
 newtype PeerPort = PeerPort Word16
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
+
+
+newtype IPAddress = IPAddress Word32
+    deriving (Show, Eq, Ord, Num, Enum, Real, Integral)

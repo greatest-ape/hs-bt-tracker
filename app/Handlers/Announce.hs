@@ -51,7 +51,7 @@ handleAnnounceRequest innerRequest remoteAddress = do
         determineIPAddress innerRequest remoteAddress =
             let ipAddress = _ipAddress (innerRequest :: AnnounceRequestInner)
             in if ipAddress /= 0
-                then Just $ IPv4Address $ fromIntegral ipAddress
+                then Just $ IPAddress $ fromIntegral ipAddress
                 else getIPAddress remoteAddress
 
 
@@ -78,7 +78,7 @@ alterPeerAndGetPeers innerRequest address = do
 -- Returns the list and the peer
 alterPeerSequence
     :: TimeStamp
-    -> IPvXAddress
+    -> IPAddress
     -> AnnounceRequestInner
     -> Maybe (Sequence.Seq Peer)
     -> (Sequence.Seq Peer, Peer)
@@ -124,7 +124,7 @@ alterPeerSequence timestamp ipAddress innerRequest maybePeers =
                 )
 
 
-createPeer :: TimeStamp -> IPvXAddress -> AnnounceRequestInner -> PeerStatus -> Peer
+createPeer :: TimeStamp -> IPAddress -> AnnounceRequestInner -> PeerStatus -> Peer
 createPeer timestamp ipAddress innerRequest defaultStatus =
     let AnnounceRequestInner {..} = innerRequest in Peer {
         _id             = _peerID,
