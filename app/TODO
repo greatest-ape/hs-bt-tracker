@@ -4,10 +4,12 @@
   - Read config from a file
   - Add config file location as a command line argument
   - Maximum accepted torrents in scrape request?
+  - TimeStamp -> Timestamp
 
 # Less important
+  - Handle word/int size protocol discrepancies
   - Add QuickCheck tests
   - Use utils for all AppM reader access operations (see announce handler)
-  - Add benchmarking
   - Does the scrape response return peer stats in the same order as the info
     hashes were received?
+  - Is the name of the "State" type misleading?
