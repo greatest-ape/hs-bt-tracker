@@ -4,8 +4,8 @@ module Utils (
     withTorrentMap,
     getsConnectionMap,
     withConnectionMap,
-    withThreadIds,
-    getThreadIds
+    getThreadIds,
+    withThreadIds
 ) where
 
 import qualified Control.Concurrent.STM as STM
