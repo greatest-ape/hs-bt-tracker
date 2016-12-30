@@ -32,7 +32,6 @@ handleAnnounceRequest innerRequest remoteAddress = do
     case determineIPAddress innerRequest remoteAddress of
         Just address -> do
             (processedPeers, currentPeer) <- alterPeerAndGetPeers innerRequest address
-            -- Return stats and all peers for this torrent from the TorrentMap
             peers <- filterPeers processedPeers currentPeer peersWanted
             announceInterval <- Utils.getConfigField _announceInterval
 
