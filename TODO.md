@@ -2,6 +2,8 @@
 
 ## Important
 
+  - Check for ConnectionID collisions
+  - Rename newtypes XID to XId
   - Read config from a file
   - Add config file location as a command line argument
   - Add setting for maximum accepted torrents in scrape request
