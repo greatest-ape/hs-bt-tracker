@@ -36,6 +36,7 @@ executable hs-bt-tracker
                      , stm
                      , time
                      , transformers
+                     , unix
                      , unordered-containers
   default-language:    Haskell2010
 

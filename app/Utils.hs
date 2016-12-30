@@ -6,12 +6,16 @@ module Utils (
     withConnectionMap,
     getThreadIds,
     withThreadIds,
+    signalExit,
+    waitForExit,
     getTimestamp,
     forkAppM,
-    threadDelaySeconds
+    threadDelaySeconds,
+    doNTimes
 ) where
 
 import qualified Control.Concurrent.STM as STM
+import qualified Control.Concurrent.MVar as MVar
 
 import Control.Concurrent (ThreadId, forkIO, threadDelay)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
@@ -45,6 +49,13 @@ getThreadIds = asks _threadIds >>= liftIO . STM.atomically . STM.readTVar
 withThreadIds f = withStateSTMField _threadIds f
 
 
+signalExit :: AppM ()
+signalExit = asks _exit >>= liftIO . flip MVar.putMVar ()
+
+waitForExit :: AppM ()
+waitForExit = asks _exit >>= liftIO . MVar.takeMVar
+
+
 getStateSTMField :: (State -> STM.TVar a) -> AppM a
 getStateSTMField _accessor = do
     tVar <- asks _accessor
@@ -68,3 +79,8 @@ forkAppM f = ask >>= liftIO . forkIO . runReaderT f
 
 threadDelaySeconds :: Int -> IO ()
 threadDelaySeconds n = threadDelay $ 1000000 * n
+
+
+doNTimes :: Integer -> AppM a -> AppM ()
+doNTimes 0 f = return ()
+doNTimes n f = f >> doNTimes (n - 1) f

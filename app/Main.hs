@@ -18,16 +18,18 @@
 
 module Main where
 
+import qualified Control.Concurrent.MVar as MVar
 import qualified Control.Concurrent.STM as STM
 import qualified Data.HashMap.Strict as Map
 import qualified Data.Sequence as Sequence
 import qualified Network.Socket as Socket hiding (send, sendTo, recv, recvFrom)
 import qualified Network.Socket.ByteString as Socket
+import qualified System.Posix.Signals as Signals
 
 import Control.Concurrent (killThread)
 import Control.Exception.Lifted (bracket)
 import Control.Monad (replicateM, forever, forM_)
-import Control.Monad.Trans.Reader (ReaderT, runReaderT)
+import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask)
 import Control.Monad.IO.Class (liftIO)
 
 import qualified Converters
@@ -40,9 +42,9 @@ import Types
 main :: IO ()
 main = do
     let config = Config {
-        _serverAddress             = "0.0.0.0",
-        _serverPort                = 8080,
-        _numberOfThreads           = 4,
+        _serverAddress             = "127.0.0.1",
+        _serverPort                = 8000,
+        _numberOfThreads           = 1,
 
         _announceInterval          = 1800,
         _maximumPeersToSend        = 100,
@@ -62,12 +64,12 @@ main = do
         liftIO $ putStrLn $
             "Starting BitTorrent server on " ++ address ++ ":" ++ show port ++ ".."
 
-        runUDPServer
-
         Utils.forkAppM pruneConnections
         Utils.forkAppM prunePeers
 
-    forever $ Utils.threadDelaySeconds 60
+        runUDPServer
+
+        Utils.waitForExit
 
     return ()
 
@@ -78,16 +80,27 @@ createInitialState config = State
     <*> (STM.atomically $ STM.newTVar $ TorrentMap Map.empty)
     <*> (STM.atomically $ STM.newTVar $ ConnectionMap Map.empty)
     <*> (STM.atomically $ STM.newTVar $ [])
+    <*> MVar.newEmptyMVar
 
 
 runUDPServer :: AppM ()
-runUDPServer = bracket createSocket killThreadsUsingSocket $ \socket -> do
-    numberOfThreads <- Utils.getConfigField _numberOfThreads
+runUDPServer = do
+    threadId <- Utils.forkAppM $ do
+        bracket createSocket exitCleanly $ \socket -> do
+            quitOnSignal Signals.sigINT socket
+            quitOnSignal Signals.sigTERM socket
 
-    createdThreadIds <- replicateM numberOfThreads $
-        Utils.forkAppM (acceptConnections socket)
+            acceptConnections socket
 
-    Utils.withThreadIds (++ createdThreadIds)
+    Utils.withThreadIds ((:) threadId)
+
+    where
+        quitOnSignal signal socket = do
+            state <- ask
+            liftIO $ Signals.installHandler
+                signal
+                (Signals.Catch $ runReaderT (exitCleanly socket) state)
+                Nothing
 
 
 createSocket :: AppM Socket.Socket
@@ -114,29 +127,30 @@ createSocket = do
         return socket
 
 
-killThreadsUsingSocket :: Socket.Socket -> AppM ()
-killThreadsUsingSocket socket = do
+exitCleanly :: Socket.Socket -> AppM ()
+exitCleanly socket = do
     threadIds <- Utils.getThreadIds
 
     liftIO $ do
         forM_ threadIds killThread
         Socket.close socket
 
+    Utils.signalExit
+
     return ()
 
 
 acceptConnections :: Socket.Socket -> AppM ()
-acceptConnections socket =
-    forever $ do
-        (requestBytes, remoteAddress) <- liftIO $ Socket.recvFrom socket 2048
+acceptConnections socket = forever $ do
+    (requestBytes, remoteAddress) <- liftIO $ Socket.recvFrom socket 2048
 
-        response <- case Converters.bytesToRequest requestBytes of
-            Left (unconsumedByteString, consumedBytes, errorMessage) ->
-                return $ ErrorResponse $ ErrorResponseInner (TransactionID 0) "Invalid request"
-            Right (_, _, request) ->
-                 Handlers.handleRequest request remoteAddress
+    response <- case Converters.bytesToRequest requestBytes of
+        Left (unconsumedByteString, consumedBytes, errorMessage) ->
+            return $ ErrorResponse $ ErrorResponseInner (TransactionID 0) "Invalid request"
+        Right (_, _, request) ->
+             Handlers.handleRequest request remoteAddress
 
-        liftIO $ Socket.sendTo socket (Converters.responseToBytes response) remoteAddress
+    liftIO $ Socket.sendTo socket (Converters.responseToBytes response) remoteAddress
 
 
 pruneConnections :: AppM ()

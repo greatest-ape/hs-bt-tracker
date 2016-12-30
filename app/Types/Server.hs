@@ -1,6 +1,7 @@
 module Types.Server where
 
 import qualified Control.Concurrent.STM as STM
+import qualified Control.Concurrent.MVar as MVar
 import qualified Data.HashMap.Strict as Map
 import qualified Data.Sequence as Sequence
 
@@ -45,7 +46,8 @@ data State = State {
     _config        :: Config,
     _torrentMap    :: STM.TVar TorrentMap,
     _connectionMap :: STM.TVar ConnectionMap,
-    _threadIds     :: STM.TVar [ThreadId]
+    _threadIds     :: STM.TVar [ThreadId],
+    _exit          :: MVar.MVar ()
 }
 
 type AppM = ReaderT State IO
