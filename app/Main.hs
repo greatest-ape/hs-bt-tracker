@@ -42,9 +42,9 @@ import Types
 main :: IO ()
 main = do
     let config = Config {
-        _serverAddress             = "127.0.0.1",
+        _serverAddress             = "0.0.0.0",
         _serverPort                = 8000,
-        _numberOfThreads           = 1,
+        _numberOfThreads           = 1, -- Currently not actually used
 
         _announceInterval          = 1800,
         _maximumPeersToSend        = 100,
