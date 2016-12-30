@@ -42,18 +42,33 @@ import Types
 main :: IO ()
 main = do
     let config = Config {
+        -- Server address as a string
         _serverAddress             = "0.0.0.0",
-        _serverPort                = 8000,
-        _numberOfThreads           = 2, -- At the moment, using more than one thread
-                                        -- doesn't necessarily improve performance
 
+        -- Server port
+        _serverPort                = 8000,
+
+        -- Number of threads that receive requests and send responses
+        -- At the moment, using more than one thread doesn't necessarily
+        -- improve performance
+        _numberOfThreads           = 2,
+
+        -- Ask peers to announce this often
         _announceInterval          = 1800,
+
+        -- Maximum number of peers to return in an announce response
         _maximumPeersToSend        = 100,
 
+        -- How old connections can be before being removed
         _connectionMaxAge          = 300,
+
+        -- How often to remove expired connections
         _connectionPruneInterval   = 30,
 
+        -- How old peers can be before being removed
         _peerMaxAge                = 2000,
+
+        -- How often to remove expired peers
         _peerPruneInterval         = 60
     }
 
