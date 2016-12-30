@@ -2,7 +2,7 @@
   - Read config from a file
   - Add config file location as a command line argument
   - Maximum accepted torrents in scrape request?
-  - Handle word/int size protocol discrepancies
+  - Enable exiting using C-c, make socket reading work in subthreads as well
 
 # Less important
   - Add QuickCheck tests
@@ -10,3 +10,5 @@
   - Does the scrape response return peer stats in the same order as the info
     hashes were received?
   - Is the name of the "State" type misleading?
+  - Handle word/int size protocol discrepancies (does anything really need to
+    be done?)
