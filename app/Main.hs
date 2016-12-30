@@ -121,7 +121,7 @@ createSocket = do
         (Just serverPort)
 
     -- Select the first option with IPv4
-    let serverAddr = head $ filter (\addr -> Socket.addrFamily addr == Socket.AF_INET) addrInfos
+    let serverAddr = head $ filter(\addr -> Socket.addrFamily addr == Socket.AF_INET) addrInfos
 
     liftIO $ do
         socket <- Socket.socket
@@ -153,7 +153,9 @@ acceptConnections socket = forever $ do
 
     response <- case Converters.bytesToRequest requestBytes of
         Left (unconsumedByteString, consumedBytes, errorMessage) ->
-            return $ ErrorResponse $ ErrorResponseInner (TransactionID 0) "Invalid request"
+            return $ ErrorResponse $ ErrorResponseInner
+                (TransactionID 0)
+                "Invalid request"
         Right (_, _, request) ->
              Handlers.handleRequest request remoteAddress
 
