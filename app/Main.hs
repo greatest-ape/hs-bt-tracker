@@ -165,10 +165,10 @@ pruneConnections = forever $ do
     connectionMaxAge        <- Utils.getConfigField _connectionMaxAge
     connectionPruneInterval <- Utils.getConfigField _connectionPruneInterval
 
-    timestampLimit <- (\(Timestamp t) -> Timestamp $ t - connectionMaxAge) <$> liftIO Utils.getTimestamp
+    timestampLimit <- (\(Timestamp t) -> Timestamp $ t - connectionMaxAge) <$>
+        liftIO Utils.getTimestamp
 
-    Utils.withConnectionMap $
-        Map.filter (\t -> t > timestampLimit)
+    Utils.withConnectionMap $ Map.filter (\t -> t > timestampLimit)
 
     liftIO $ Utils.threadDelaySeconds connectionPruneInterval
 
@@ -178,7 +178,8 @@ prunePeers = forever $ do
     peerMaxAge        <- Utils.getConfigField _peerMaxAge
     peerPruneInterval <- Utils.getConfigField _peerPruneInterval
 
-    timestampLimit <- (\(Timestamp t) -> Timestamp $ t - peerMaxAge) <$> liftIO Utils.getTimestamp
+    timestampLimit <- (\(Timestamp t) -> Timestamp $ t - peerMaxAge) <$>
+        liftIO Utils.getTimestamp
 
     Utils.withTorrentMap $
         Map.map (Sequence.filter (\peer -> _lastAnnounce peer > timestampLimit))
