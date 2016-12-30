@@ -2,13 +2,16 @@
   - Read config from a file
   - Add config file location as a command line argument
   - Maximum accepted torrents in scrape request?
-  - Enable exiting using C-c, make socket reading work in subthreads as well
 
 # Less important
+  - Use better socket model to enable multithreading. Maybe have one thread
+    do all socket access and use chans to communicate with other threads?
   - Add QuickCheck tests
-  - Use utils for all AppM reader access operations (see announce handler)
   - Does the scrape response return peer stats in the same order as the info
     hashes were received?
   - Is the name of the "State" type misleading?
   - Handle word/int size protocol discrepancies (does anything really need to
     be done?)
+
+# Won't fix
+  - Use utils for all AppM reader access operations (see announce handler)
