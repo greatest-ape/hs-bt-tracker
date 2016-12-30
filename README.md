@@ -8,7 +8,12 @@ http://www.libtorrent.org/udp_tracker_protocol.html.
 
 Doesn't support black- or whitelisting.
 
-Doesn't have any tests built in and doesn't necessarily even work well!
+This is more or less a refactored version of a tracker prototype I developed
+and later rewrote in Rust (https://github.com/greatest-ape/rs_bt_tracker).
+That one has more features, a lot better performance and better tests.
+
+I might still make improvements to `hs-bt-tracker`, but the Rust project is
+my primary tracker project.
 
 ## Setup
 
@@ -17,9 +22,10 @@ Install `stack` if you haven't already.
 To build and start the server, run:
 
 ```sh
+stack setup # Only necessary once
 ./scripts/build-and-run.sh
 ```
 
 ## Future plans
 
-Better performance, better test coverage and other improvements. See `TODO.md`.
+See `TODO.md`.
