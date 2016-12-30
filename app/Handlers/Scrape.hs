@@ -18,7 +18,7 @@ import Handlers.Common
 handleScrapeRequest :: ScrapeRequestInner -> AppM Response
 handleScrapeRequest innerRequest = do
     let transactionID = _transactionID (innerRequest :: ScrapeRequestInner)
-    let infoHashes    = _infoHashes    (innerRequest :: ScrapeRequestInner)
+        infoHashes    = _infoHashes    (innerRequest :: ScrapeRequestInner)
 
     peerLists <- getPeerLists infoHashes
 

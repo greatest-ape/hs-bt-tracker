@@ -27,7 +27,7 @@ handleRequest (ConnectRequest requestInner) remoteAddress = do
 -- Handle announce request
 handleRequest (AnnounceRequest requestInner) remoteAddress = do
     let transactionID = _transactionID (requestInner :: AnnounceRequestInner)
-    let connectionID  = _connectionID  (requestInner :: AnnounceRequestInner)
+        connectionID  = _connectionID  (requestInner :: AnnounceRequestInner)
 
     ifConnectionEstablished remoteAddress transactionID connectionID $ do
         handleAnnounceRequest requestInner remoteAddress
@@ -35,7 +35,7 @@ handleRequest (AnnounceRequest requestInner) remoteAddress = do
 -- Handle scrape request
 handleRequest (ScrapeRequest requestInner) remoteAddress = do
     let transactionID = _transactionID (requestInner :: ScrapeRequestInner)
-    let connectionID  = _connectionID  (requestInner :: ScrapeRequestInner)
+        connectionID  = _connectionID  (requestInner :: ScrapeRequestInner)
 
     ifConnectionEstablished remoteAddress transactionID connectionID $ do
         handleScrapeRequest requestInner

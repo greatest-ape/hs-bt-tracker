@@ -27,7 +27,7 @@ import Handlers.Common
 handleAnnounceRequest :: AnnounceRequestInner -> Socket.SockAddr -> AppM Response
 handleAnnounceRequest innerRequest remoteAddress = do
     let transactionID = _transactionID (innerRequest :: AnnounceRequestInner)
-    let peersWanted   = _peersWanted   (innerRequest :: AnnounceRequestInner)
+        peersWanted   = _peersWanted   (innerRequest :: AnnounceRequestInner)
 
     case determineIPAddress innerRequest remoteAddress of
         Just address -> do
