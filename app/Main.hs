@@ -44,7 +44,7 @@ main = do
     let config = Config {
         _serverAddress             = "0.0.0.0",
         _serverPort                = 8000,
-        _numberOfThreads           = 1, -- Currently not actually used
+        _numberOfThreads           = 2, -- ATM more threads don't necessarily improve performance
 
         _announceInterval          = 1800,
         _maximumPeersToSend        = 100,
@@ -89,6 +89,13 @@ runUDPServer = do
         bracket createSocket exitCleanly $ \socket -> do
             quitOnSignal Signals.sigINT socket
             quitOnSignal Signals.sigTERM socket
+
+            numberOfThreads <- Utils.getConfigField _numberOfThreads
+
+            threadIds <- replicateM (numberOfThreads - 1) $
+                Utils.forkAppM $ acceptConnections socket
+
+            Utils.withThreadIds (++ threadIds)
 
             acceptConnections socket
 
