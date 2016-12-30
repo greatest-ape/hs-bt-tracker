@@ -29,8 +29,8 @@ import qualified System.Posix.Signals as Signals
 import Control.Concurrent (killThread)
 import Control.Exception.Lifted (bracket)
 import Control.Monad (replicateM, forever, forM_)
-import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask)
 import Control.Monad.IO.Class (liftIO)
+import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask)
 
 import qualified Converters
 import qualified Handlers

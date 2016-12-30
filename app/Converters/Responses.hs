@@ -8,8 +8,8 @@ import qualified Data.Binary.Put as Binary
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy as LBS
 
-import Data.Word (Word32)
 import Control.Monad (forM_)
+import Data.Word (Word32)
 
 import Types
 

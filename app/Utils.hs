@@ -14,12 +14,12 @@ module Utils (
     doNTimes
 ) where
 
-import qualified Control.Concurrent.STM as STM
 import qualified Control.Concurrent.MVar as MVar
+import qualified Control.Concurrent.STM as STM
 
 import Control.Concurrent (ThreadId, forkIO, threadDelay)
-import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Control.Monad.IO.Class (liftIO)
+import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Data.Time.Clock.POSIX (getPOSIXTime)
 
 import Types

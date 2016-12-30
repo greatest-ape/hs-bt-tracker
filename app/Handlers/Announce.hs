@@ -5,14 +5,14 @@
 
 module Handlers.Announce where
 
+import qualified Control.Concurrent.STM as STM
 import qualified Data.HashMap.Strict as Map
 import qualified Data.Sequence as Sequence
 import qualified Network.Socket as Socket
-import qualified Control.Concurrent.STM as STM
 
-import Control.Monad.Trans.Reader (asks)
 import Control.Monad (forM)
 import Control.Monad.IO.Class (liftIO)
+import Control.Monad.Trans.Reader (asks)
 import Data.Array.IO (readArray, writeArray, newListArray, IOArray)
 import Data.Foldable (toList)
 import System.Random (randomIO, randomRIO)
