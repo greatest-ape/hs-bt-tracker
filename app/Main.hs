@@ -44,7 +44,8 @@ main = do
     let config = Config {
         _serverAddress             = "0.0.0.0",
         _serverPort                = 8000,
-        _numberOfThreads           = 2, -- ATM more threads don't necessarily improve performance
+        _numberOfThreads           = 2, -- At the moment, using more than one thread
+                                        -- doesn't necessarily improve performance
 
         _announceInterval          = 1800,
         _maximumPeersToSend        = 100,
