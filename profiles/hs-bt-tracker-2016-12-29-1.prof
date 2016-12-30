@@ -1,0 +1,352 @@
+Info: I used only one acceptConnections thread and quit after 10000000
+processed requests (replacing 'forever' with 'doNTimes')
+
+	Fri Dec 30 03:11 2016 Time and Allocation Profiling Report  (Final)
+
+	   hs-bt-tracker +RTS -N -N -p -RTS
+
+	total time  =       59.02 secs   (59023 ticks @ 1000 us, 1 processor)
+	total alloc = 22,548,803,712 bytes  (excludes profiling overheads)
+
+COST CENTRE                           MODULE                     %time %alloc
+
+throwSocketErrorIfMinus1RetryMayBlock Network.Socket.Internal     35.0    2.3
+bytesToRequest                        Converters.Requests         10.8   14.8
+getTimestamp                          Utils                        8.6    5.2
+responseToBytes                       Converters.Responses         5.4   27.0
+MAIN                                  MAIN                         4.3    5.2
+alterPeerSequence.identifyPeer        Handlers.Announce            2.7    3.9
+alterPeerAndGetPeers.\                Handlers.Announce            2.4    2.9
+responseToBytes.\                     Converters.Responses         1.9    2.8
+handleAnnounceRequest                 Handlers.Announce            1.8    2.4
+doNTimes                              Utils                        1.7    0.4
+recvFrom                              Network.Socket.ByteString    1.6   10.7
+getsConnectionMap.\                   Utils                        1.5    0.1
+alterPeerAndGetPeers                  Handlers.Announce            1.5    1.3
+alterPeerAndGetPeers.maybePeers       Handlers.Announce            1.4    0.2
+recvBufFrom                           Network.Socket               1.4    1.0
+countLeechers                         Handlers.Common              1.3    2.6
+alterPeerSequence                     Handlers.Announce            0.8    1.5
+filterPeers.nonCurrentPeers           Handlers.Announce            0.7    1.7
+alterPeerSequence.nonMatchingPeers    Handlers.Announce            0.7    1.7
+countSeeders                          Handlers.Common              0.7    1.8
+
+
+                                                                                                          individual      inherited
+COST CENTRE                                                 MODULE                    no.      entries  %time %alloc   %time %alloc
+
+MAIN                                                        MAIN                      1278          0    4.3    5.2   100.0  100.0
+ main                                                       Main                      2557          0    0.0    0.0    95.7   94.8
+  runUDPServer                                              Main                      2570          0    0.0    0.0    95.6   94.7
+   killThreadsUsingSocket                                   Main                      2826          1    0.0    0.0     0.0    0.0
+    close                                                   Network.Socket            2830          1    0.0    0.0     0.0    0.0
+     throwSocketErrorIfMinus1_                              Network.Socket.Internal   2832          0    0.0    0.0     0.0    0.0
+    getThreadIds                                            Utils                     2828          0    0.0    0.0     0.0    0.0
+     _threadIds                                             Types.Server              2829          1    0.0    0.0     0.0    0.0
+   runUDPServer.\                                           Main                      2631          1    0.0    0.0    95.6   94.7
+    acceptConnections                                       Main                      2632          1    0.0    0.0    95.6   94.7
+     recvFrom                                               Network.Socket.ByteString 2634          1    0.0    0.0     0.0    0.0
+     doNTimes                                               Utils                     2633    1000001    1.7    0.4    95.6   94.7
+      sendTo                                                Network.Socket.ByteString 2665    1000000    0.3    0.2    22.6    2.3
+       sendBufTo                                            Network.Socket            2666    1000000    0.1    0.5    22.4    2.1
+        withSockAddr                                        Network.Socket.Types      2667    1000000    0.5    0.6    22.3    1.6
+         throwSocketErrorWaitWrite                          Network.Socket.Internal   2671    1000000    0.1    0.1    21.5    0.9
+          throwSocketErrorIfMinus1RetryMayBlock             Network.Socket.Internal   2672    1000000   21.4    0.8    21.4    0.8
+         pokeSockAddr                                       Network.Socket.Types      2669    1000000    0.2    0.1     0.3    0.1
+          zeroMemory                                        Network.Socket.Types      2670    1000000    0.1    0.0     0.1    0.0
+         sizeOfSockAddr                                     Network.Socket.Types      2668    1000000    0.0    0.0     0.0    0.0
+      responseToBytes                                       Converters.Responses      2657    1000000    5.4   27.0     8.5   31.3
+       responseToBytes.\                                    Converters.Responses      2798    3118606    0.8    1.5     1.0    2.0
+        $sel:_port:Peer                                     Types.Peer                2803    3118606    0.1    0.2     0.1    0.2
+        $sel:_ipAddress:Peer                                Types.Peer                2801    3118606    0.1    0.2     0.1    0.2
+       $sel:_peers:AnnounceResponseInner                    Types.Response            2766     977646    0.0    0.0     0.0    0.0
+       $sel:_seeders:AnnounceResponseInner                  Types.Response            2765     977646    0.0    0.1     0.0    0.1
+       $sel:_leechers:AnnounceResponseInner                 Types.Response            2763     977646    0.0    0.1     0.0    0.1
+       $sel:_interval:AnnounceResponseInner                 Types.Response            2761     977646    0.0    0.1     0.0    0.1
+       $sel:_transactionID:AnnounceResponseInner            Types.Response            2750     977646    0.1    0.1     0.1    0.1
+       $sel:_connectionID:ConnectResponseInner              Types.Response            2664      22354    0.0    0.0     0.0    0.0
+       $sel:_transactionID:ConnectResponseInner             Types.Response            2660      22354    0.0    0.0     0.0    0.0
+       responseToBytes.encodeActionAndTransactionID         Converters.Responses      2658    1000000    0.8    0.8     2.0    2.0
+        responseToBytes.\                                   Converters.Responses      2799          0    1.1    1.2     1.1    1.2
+      handleRequest                                         Handlers                  2648    1000000    0.4    0.5    34.5   32.0
+       handleAnnounceRequest                                Handlers.Announce         2699     977646    0.4    0.5     1.2    1.1
+        handleAnnounceRequest.transactionID                 Handlers.Announce         2751     977646    0.0    0.0     0.1    0.1
+         $sel:_transactionID:AnnounceRequestInner           Types.Request             2752     977646    0.1    0.1     0.1    0.1
+        handleAnnounceRequest.peersWanted                   Handlers.Announce         2747     977646    0.1    0.0     0.1    0.1
+         $sel:_peersWanted:AnnounceRequestInner             Types.Request             2748     977646    0.0    0.1     0.0    0.1
+        alterPeerAndGetPeers                                Handlers.Announce         2709     977646    0.1    0.2     0.2    0.2
+         alterPeerAndGetPeers.infoHash                      Handlers.Announce         2719     977646    0.1    0.0     0.1    0.0
+          $sel:_infoHash:AnnounceRequestInner               Types.Request             2720     977646    0.1    0.0     0.1    0.0
+        handleAnnounceRequest.determineIPAddress            Handlers.Announce         2700     977646    0.3    0.1     0.5    0.2
+         getIPAddress                                       Handlers.Common           2707     977646    0.1    0.1     0.1    0.1
+         handleAnnounceRequest.determineIPAddress.ipAddress Handlers.Announce         2702     977646    0.0    0.0     0.1    0.1
+          $sel:_ipAddress:AnnounceRequestInner              Types.Request             2703     977646    0.0    0.1     0.0    0.1
+       handleRequest.connectionID                           Handlers                  2684     977646    0.0    0.0     0.1    0.1
+        $sel:_connectionID:AnnounceRequestInner             Types.Request             2685     977646    0.1    0.1     0.1    0.1
+       ifConnectionEstablished                              Handlers                  2673     977646    0.4    0.3    32.5   30.0
+        handleAnnounceRequest                               Handlers.Announce         2708          0    1.4    1.9    29.1   28.7
+         countSeeders                                       Handlers.Common           2759     977646    0.7    1.8     0.8    1.8
+          $sel:_status:Peer                                 Types.Peer                2797    3118606    0.0    0.0     0.0    0.0
+          ==                                                Types.Peer                2796    3118606    0.1    0.0     0.1    0.0
+         countLeechers                                      Handlers.Common           2757     977646    1.3    2.6     1.5    2.6
+          $sel:_status:Peer                                 Types.Peer                2795    3118606    0.1    0.0     0.1    0.0
+          ==                                                Types.Peer                2794    3118606    0.1    0.0     0.1    0.0
+         getConfigField                                     Utils                     2753          0    0.3    0.1     0.4    0.1
+          _announceInterval                                 Types.Server              2755     977646    0.0    0.0     0.0    0.0
+          _config                                           Types.Server              2754     977646    0.1    0.0     0.1    0.0
+         filterPeers                                        Handlers.Announce         2713     977646    0.4    0.1     2.7    2.4
+          filterPeers.peersWanted'                          Handlers.Announce         2745     977646    0.3    0.1     0.3    0.1
+          filterPeers.nonCurrentPeers                       Handlers.Announce         2716     977646    0.7    1.7     2.0    2.1
+           /=                                               Types.Peer                2727    4096252    0.3    0.0     1.3    0.4
+            ==                                              Types.Peer                2740    4096252    1.0    0.4     1.0    0.4
+             ==                                             Types.Peer                2743     977646    0.0    0.0     0.0    0.0
+         alterPeerAndGetPeers                               Handlers.Announce         2710          0    1.4    1.0    22.3   20.0
+          alterPeerAndGetPeers.\                            Handlers.Announce         2767     977645    2.4    2.9     2.5    2.9
+           sparseIndex                                      Data.HashMap.Base         2773    1509462    0.0    0.0     0.0    0.0
+           copy                                             Data.HashMap.Array        2772       3954    0.0    0.0     0.0    0.0
+           new_                                             Data.HashMap.Array        2771       1977    0.0    0.0     0.0    0.0
+           hash                                             Data.HashMap.Base         2768     977645    0.0    0.0     0.1    0.0
+            hashWithSalt                                    Types.Common              2769     977645    0.0    0.0     0.1    0.0
+             hashPtrWithSalt                                Data.Hashable.Class       2770     977645    0.0    0.0     0.0    0.0
+          alterPeerAndGetPeers.currentPeer                  Handlers.Announce         2739     977646    0.0    0.0     0.0    0.0
+          alterPeerAndGetPeers.(...)                        Handlers.Announce         2725     977646    0.2    0.1     8.1   10.9
+           alterPeerSequence                                Handlers.Announce         2726     977646    0.8    1.5     7.9   10.8
+            alterPeerSequence.peer                          Handlers.Announce         2805     967889    0.3    0.2     0.7    0.9
+             createPeer                                     Handlers.Announce         2806     967889    0.3    0.6     0.4    0.6
+              createPeer._bytesLeft                         Handlers.Announce         2814     967889    0.0    0.0     0.0    0.0
+              getPeerStatus                                 Handlers.Announce         2812     967889    0.2    0.0     0.2    0.0
+               ==                                           Types.Request             2813    1935778    0.0    0.0     0.0    0.0
+              createPeer._port                              Handlers.Announce         2811     967889    0.0    0.0     0.0    0.0
+              createPeer._announceEvent                     Handlers.Announce         2810     967889    0.0    0.0     0.0    0.0
+              createPeer._connectionID                      Handlers.Announce         2809     967889    0.0    0.0     0.0    0.0
+              createPeer.(...)                              Handlers.Announce         2808     967889    0.0    0.0     0.0    0.0
+              createPeer._peerID                            Handlers.Announce         2807     967889    0.0    0.0     0.0    0.0
+            alterPeerSequence.nonMatchingPeers              Handlers.Announce         2785     974737    0.7    1.7     2.1    4.6
+             alterPeerSequence.identifyPeer                 Handlers.Announce         2786    4086495    1.0    2.0     1.4    2.8
+              alterPeerSequence.identifyPeer.peerID         Handlers.Announce         2792    3118606    0.1    0.0     0.1    0.0
+               $sel:_peerID:AnnounceRequestInner            Types.Request             2793    3118606    0.0    0.0     0.0    0.0
+              $sel:_id:Peer                                 Types.Peer                2791    3118606    0.0    0.0     0.0    0.0
+              alterPeerSequence.identifyPeer.connectionID   Handlers.Announce         2789    4086495    0.1    0.0     0.1    0.3
+               $sel:_connectionID:AnnounceRequestInner      Types.Request             2790    4086495    0.1    0.3     0.1    0.3
+              $sel:_connectionID:Peer                       Types.Peer                2788    4086495    0.1    0.3     0.1    0.3
+              $sel:_ipAddress:Peer                          Types.Peer                2787    4086495    0.1    0.3     0.1    0.3
+            alterPeerSequence.matchingPeers                 Handlers.Announce         2776     974737    1.0    1.0     4.3    3.8
+             alterPeerSequence.identifyPeer                 Handlers.Announce         2777    4086495    1.7    2.0     3.3    2.8
+              alterPeerSequence.identifyPeer.peerID         Handlers.Announce         2783    3118606    0.0    0.0     0.1    0.0
+               $sel:_peerID:AnnounceRequestInner            Types.Request             2784    3118606    0.1    0.0     0.1    0.0
+              $sel:_id:Peer                                 Types.Peer                2782    3118606    0.5    0.0     0.5    0.0
+              alterPeerSequence.identifyPeer.connectionID   Handlers.Announce         2780    4086495    0.0    0.0     0.2    0.3
+               $sel:_connectionID:AnnounceRequestInner      Types.Request             2781    4086495    0.1    0.3     0.1    0.3
+              $sel:_connectionID:Peer                       Types.Peer                2779    4086495    0.1    0.3     0.1    0.3
+              $sel:_ipAddress:Peer                          Types.Peer                2778    4086495    0.7    0.3     0.7    0.3
+            alterPeerSequence.newPeer                       Handlers.Announce         2728       9757    0.0    0.0     0.0    0.0
+             createPeer                                     Handlers.Announce         2729       9757    0.0    0.0     0.0    0.0
+              createPeer._bytesLeft                         Handlers.Announce         2738       9757    0.0    0.0     0.0    0.0
+              getPeerStatus                                 Handlers.Announce         2735       9757    0.0    0.0     0.0    0.0
+               ==                                           Types.Request             2736      19514    0.0    0.0     0.0    0.0
+              createPeer._port                              Handlers.Announce         2734       9757    0.0    0.0     0.0    0.0
+              createPeer._announceEvent                     Handlers.Announce         2733       9757    0.0    0.0     0.0    0.0
+              createPeer._connectionID                      Handlers.Announce         2732       9757    0.0    0.0     0.0    0.0
+              createPeer.(...)                              Handlers.Announce         2731       9757    0.0    0.0     0.0    0.0
+              createPeer._peerID                            Handlers.Announce         2730       9757    0.0    0.0     0.0    0.0
+          alterPeerAndGetPeers.maybePeers                   Handlers.Announce         2718     977646    1.4    0.2     1.6    0.2
+           sparseIndex                                      Data.HashMap.Base         2774    1507487    0.0    0.0     0.0    0.0
+           hash                                             Data.HashMap.Base         2721     977646    0.0    0.0     0.2    0.0
+            hashWithSalt                                    Types.Common              2722     977646    0.0    0.0     0.1    0.0
+             hashPtrWithSalt                                Data.Hashable.Class       2723     977646    0.1    0.0     0.1    0.0
+          alterPeerAndGetPeers.processedPeers               Handlers.Announce         2717     977646    0.1    0.0     0.1    0.0
+          _torrentMap                                       Types.Server              2712     977646    0.1    0.0     0.1    0.0
+          getTimestamp                                      Utils                     2711          0    8.5    5.0     8.5    5.0
+        checkConnectionEstablished                          Handlers                  2674     977646    0.1    0.3     3.0    1.0
+         getsConnectionMap                                  Utils                     2676     977646    0.2    0.1     2.9    0.7
+          getsConnectionMap.\                               Utils                     2681     977646    1.5    0.1     2.0    0.3
+           ==                                               Types.Server              2697     977646    0.3    0.3     0.3    0.3
+           sparseIndex                                      Data.HashMap.Base         2696    1352583    0.1    0.0     0.1    0.0
+           hash                                             Data.HashMap.Base         2682     977646    0.0    0.0     0.0    0.0
+            hashWithSalt                                    Types.Server              2683     977646    0.0    0.0     0.0    0.0
+          getStateSTMField                                  Utils                     2679          0    0.7    0.2     0.7    0.2
+           _connectionMap                                   Types.Server              2680     977646    0.0    0.0     0.0    0.0
+         getIPAddress                                       Handlers.Common           2675     977646    0.0    0.0     0.0    0.0
+       handleConnectRequest                                 Handlers.Connect          2649      22354    0.0    0.0     0.3    0.4
+        handleConnectRequest.transactionID                  Handlers.Connect          2661      22354    0.0    0.0     0.0    0.0
+         $sel:_transactionID:ConnectRequestInner            Types.Request             2662      22354    0.0    0.0     0.0    0.0
+        withConnectionMap                                   Utils                     2654      22354    0.0    0.0     0.0    0.1
+         withStateSTMField                                  Utils                     2655      22354    0.0    0.0     0.0    0.1
+          withConnectionMap.g                               Utils                     2687      22354    0.0    0.1     0.0    0.1
+           sparseIndex                                      Data.HashMap.Base         2695      28324    0.0    0.0     0.0    0.0
+           copy                                             Data.HashMap.Array        2694      30540    0.0    0.0     0.0    0.0
+           new_                                             Data.HashMap.Array        2693      15270    0.0    0.0     0.0    0.0
+           hash                                             Data.HashMap.Base         2688      22354    0.0    0.0     0.0    0.0
+            hashWithSalt                                    Types.Server              2689      22354    0.0    0.0     0.0    0.0
+          _connectionMap                                    Types.Server              2656      22354    0.0    0.0     0.0    0.0
+        getTimestamp                                        Utils                     2653          0    0.1    0.1     0.1    0.1
+        getStdRandom                                        System.Random             2652          0    0.1    0.1     0.1    0.1
+        getIPAddress                                        Handlers.Common           2650      22354    0.0    0.0     0.0    0.0
+      bytesToRequest                                        Converters.Requests       2643    1000000   10.8   14.8    10.8   14.8
+       bytesToRequest.decodeEvent                           Converters.Requests       2686     977646    0.0    0.0     0.0    0.0
+      recvFrom                                              Network.Socket.ByteString 2635          0    1.6   10.7    17.5   13.9
+       recvBufFrom                                          Network.Socket            2636    1000000    1.4    1.0    15.9    3.2
+        peekSockAddr                                        Network.Socket.Types      2642    1000000    0.2    0.2     0.2    0.2
+        isConnected                                         Network.Socket            2641    1000000    0.3    0.1     0.3    0.1
+        throwSocketErrorWaitRead                            Network.Socket.Internal   2639    1000000    0.1    0.1    13.7    1.6
+         throwSocketErrorIfMinus1RetryMayBlock              Network.Socket.Internal   2640    1000000   13.6    1.5    13.6    1.5
+          sockFd                                            Network.Socket.Types      2804     199848    0.0    0.0     0.0    0.0
+        withNewSockAddr                                     Network.Socket.Types      2637    1000000    0.3    0.3     0.3    0.3
+         sizeOfSockAddrByFamily                             Network.Socket.Types      2638    1000000    0.0    0.0     0.0    0.0
+   createSocket                                             Main                      2572          0    0.0    0.0     0.0    0.0
+    addrAddress                                             Network.Socket            2624          1    0.0    0.0     0.0    0.0
+    bind                                                    Network.Socket            2621          1    0.0    0.0     0.0    0.0
+     throwSocketErrorIfMinus1Retry                          Network.Socket.Internal   2629          0    0.0    0.0     0.0    0.0
+      withSockAddr                                          Network.Socket.Types      2630          0    0.0    0.0     0.0    0.0
+     withSockAddr                                           Network.Socket.Types      2622          1    0.0    0.0     0.0    0.0
+      pokeSockAddr                                          Network.Socket.Types      2625          1    0.0    0.0     0.0    0.0
+       zeroMemory                                           Network.Socket.Types      2626          1    0.0    0.0     0.0    0.0
+      sizeOfSockAddr                                        Network.Socket.Types      2623          1    0.0    0.0     0.0    0.0
+    createSocket.serverAddr                                 Main                      2617          1    0.0    0.0     0.0    0.0
+     createSocket.serverAddr.\                              Main                      2618          1    0.0    0.0     0.0    0.0
+      addrFamily                                            Network.Socket            2619          1    0.0    0.0     0.0    0.0
+    addrFamily                                              Network.Socket            2616          1    0.0    0.0     0.0    0.0
+    socket                                                  Network.Socket            2608          1    0.0    0.0     0.0    0.0
+     throwSocketErrorIfMinus1Retry                          Network.Socket.Internal   2614          0    0.0    0.0     0.0    0.0
+      packFamily                                            Network.Socket.Types      2615          1    0.0    0.0     0.0    0.0
+     packSocketTypeOrThrow                                  Network.Socket.Types      2609          1    0.0    0.0     0.0    0.0
+      packSocketType'                                       Network.Socket.Types      2610          1    0.0    0.0     0.0    0.0
+    getConfigField                                          Utils                     2596          0    0.0    0.0     0.0    0.0
+     _serverPort                                            Types.Server              2599          1    0.0    0.0     0.0    0.0
+     _serverAddress                                         Types.Server              2598          1    0.0    0.0     0.0    0.0
+     _config                                                Types.Server              2597          2    0.0    0.0     0.0    0.0
+    getAddrInfo                                             Network.Socket            2574          1    0.0    0.0     0.0    0.0
+     unpackFamily                                           Network.Socket.Types      2620          1    0.0    0.0     0.0    0.0
+     unpackSocketType'                                      Network.Socket.Types      2606          2    0.0    0.0     0.0    0.0
+      unpackSocketType                                      Network.Socket.Types      2607          2    0.0    0.0     0.0    0.0
+     peekSockAddr                                           Network.Socket.Types      2605          2    0.0    0.0     0.0    0.0
+     packFamily                                             Network.Socket.Types      2603          1    0.0    0.0     0.0    0.0
+     packSocketTypeOrThrow                                  Network.Socket.Types      2601          1    0.0    0.0     0.0    0.0
+      packSocketType'                                       Network.Socket.Types      2602          1    0.0    0.0     0.0    0.0
+  forkAppM                                                  Utils                     2568          0    0.0    0.0     0.0    0.0
+   prunePeers.\                                             Main                      2824          1    0.0    0.0     0.0    0.0
+   pruneConnections.\                                       Main                      2818          2    0.0    0.0     0.0    0.0
+   withTorrentMap                                           Utils                     2590          2    0.0    0.0     0.0    0.0
+    withStateSTMField                                       Utils                     2591          2    0.0    0.0     0.0    0.0
+     withTorrentMap.g                                       Utils                     2724          2    0.0    0.0     0.0    0.0
+      prunePeers.\                                          Main                      2822       9757    0.0    0.0     0.0    0.0
+       $sel:_lastAnnounce:Peer                              Types.Peer                2823       9757    0.0    0.0     0.0    0.0
+      new_                                                  Data.HashMap.Array        2821        990    0.0    0.0     0.0    0.0
+     _torrentMap                                            Types.Server              2592          2    0.0    0.0     0.0    0.0
+   prunePeers                                               Main                      2589          0    0.0    0.0     0.0    0.0
+    getConfigField                                          Utils                     2593          0    0.0    0.0     0.0    0.0
+     _peerMaxAge                                            Types.Server              2825          1    0.0    0.0     0.0    0.0
+     _peerPruneInterval                                     Types.Server              2595          2    0.0    0.0     0.0    0.0
+     _config                                                Types.Server              2594          3    0.0    0.0     0.0    0.0
+   threadDelaySeconds                                       Utils                     2583          5    0.0    0.0     0.0    0.0
+   withConnectionMap                                        Utils                     2580          3    0.0    0.0     0.0    0.0
+    withStateSTMField                                       Utils                     2581          3    0.0    0.0     0.0    0.0
+     withConnectionMap.g                                    Utils                     2690          3    0.0    0.0     0.0    0.0
+      copyM                                                 Data.HashMap.Array        2820      15102    0.0    0.0     0.0    0.0
+      pruneConnections.\                                    Main                      2816      44708    0.0    0.0     0.0    0.0
+      new_                                                  Data.HashMap.Array        2815      30204    0.0    0.0     0.0    0.0
+     _connectionMap                                         Types.Server              2582          3    0.0    0.0     0.0    0.0
+   getTimestamp                                             Utils                     2579          0    0.0    0.0     0.0    0.0
+   pruneConnections                                         Main                      2577          0    0.0    0.0     0.0    0.0
+    getConfigField                                          Utils                     2584          0    0.0    0.0     0.0    0.0
+     _connectionMaxAge                                      Types.Server              2819          2    0.0    0.0     0.0    0.0
+     _connectionPruneInterval                               Types.Server              2586          3    0.0    0.0     0.0    0.0
+     _config                                                Types.Server              2585          5    0.0    0.0     0.0    0.0
+  getConfigField                                            Utils                     2562          0    0.0    0.0     0.0    0.0
+   _serverPort                                              Types.Server              2566          1    0.0    0.0     0.0    0.0
+   _serverAddress                                           Types.Server              2565          1    0.0    0.0     0.0    0.0
+   _config                                                  Types.Server              2563          2    0.0    0.0     0.0    0.0
+  createInitialState                                        Main                      2559          0    0.0    0.0     0.0    0.0
+ CAF                                                        Utils                     2555          0    0.0    0.0     0.0    0.0
+  getThreadIds                                              Utils                     2827          1    0.0    0.0     0.0    0.0
+  getsConnectionMap                                         Utils                     2677          0    0.0    0.0     0.0    0.0
+   getStateSTMField                                         Utils                     2678          1    0.0    0.0     0.0    0.0
+  getTimestamp                                              Utils                     2578          1    0.0    0.0     0.0    0.0
+ CAF                                                        Main                      2554          0    0.0    0.0     0.0    0.0
+  prunePeers                                                Main                      2587          1    0.0    0.0     0.0    0.0
+   getConfigField                                           Utils                     2588          2    0.0    0.0     0.0    0.0
+  pruneConnections                                          Main                      2575          1    0.0    0.0     0.0    0.0
+   getConfigField                                           Utils                     2576          2    0.0    0.0     0.0    0.0
+  createSocket                                              Main                      2571          1    0.0    0.0     0.0    0.0
+   getConfigField                                           Utils                     2573          2    0.0    0.0     0.0    0.0
+  runUDPServer                                              Main                      2569          1    0.0    0.0     0.0    0.0
+  createInitialState                                        Main                      2560          0    0.0    0.0     0.0    0.0
+  main                                                      Main                      2556          1    0.0    0.0     0.0    0.0
+   forkAppM                                                 Utils                     2567          2    0.0    0.0     0.0    0.0
+   main.config                                              Main                      2564          1    0.0    0.0     0.0    0.0
+   getConfigField                                           Utils                     2561          2    0.0    0.0     0.0    0.0
+   createInitialState                                       Main                      2558          1    0.0    0.0     0.0    0.0
+ CAF:$fEqTimestamp2                                         Types.Common              2551          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Common              2744          1    0.0    0.0     0.0    0.0
+ CAF:$fOrdTimestamp4                                        Types.Common              2541          0    0.0    0.0     0.0    0.0
+  >                                                         Types.Common              2817          1    0.0    0.0     0.0    0.0
+ CAF:$fEqInfoHash2                                          Types.Common              2487          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Common              2775          1    0.0    0.0     0.0    0.0
+ CAF:$fEqConnectionID2                                      Types.Common              2469          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Common              2647          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralConnectionID1                                Types.Common              2407          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Common              2663          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralTransactionID1                               Types.Common              2343          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Common              2659          1    0.0    0.0     0.0    0.0
+ CAF:$fEqPeerID2                                            Types.Common              2341          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Common              2741          1    0.0    0.0     0.0    0.0
+ CAF:$fEqPeerPort2                                          Types.Common              2259          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Common              2742          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralPeerPort1                                    Types.Common              2197          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Common              2802          1    0.0    0.0     0.0    0.0
+ CAF:$fEqIPAddress2                                         Types.Common              2195          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Common              2698          1    0.0    0.0     0.0    0.0
+ CAF:$fEqIPAddress1                                         Types.Common              2193          0    0.0    0.0     0.0    0.0
+  /=                                                        Types.Common              2701          1    0.0    0.0     0.0    0.0
+ CAF:$fNumIPAddress1                                        Types.Common              2165          0    0.0    0.0     0.0    0.0
+  fromInteger                                               Types.Common              2706          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralIPAddress1                                   Types.Common              2133          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Common              2800          1    0.0    0.0     0.0    0.0
+ CAF:$fEqBytesLeft2                                         Types.Request             2037          0    0.0    0.0     0.0    0.0
+  ==                                                        Types.Request             2737          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralPeersWanted1                                 Types.Request             1847          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Request             2746          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralAnnounceInterval1                            Types.Response            1742          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Response            2760          1    0.0    0.0     0.0    0.0
+ CAF:$fNumNumberOfSeeders1                                  Types.Response            1710          0    0.0    0.0     0.0    0.0
+  fromInteger                                               Types.Response            2758          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralNumberOfSeeders1                             Types.Response            1678          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Response            2764          1    0.0    0.0     0.0    0.0
+ CAF:$fNumNumberOfLeechers1                                 Types.Response            1646          0    0.0    0.0     0.0    0.0
+  fromInteger                                               Types.Response            2756          1    0.0    0.0     0.0    0.0
+ CAF:$fIntegralNumberOfLeechers1                            Types.Response            1614          0    0.0    0.0     0.0    0.0
+  toInteger                                                 Types.Response            2762          1    0.0    0.0     0.0    0.0
+ CAF                                                        Handlers.Announce         1501          0    0.0    0.0     0.0    0.0
+  filterPeers                                               Handlers.Announce         2714          0    0.0    0.0     0.0    0.0
+   getConfigField                                           Utils                     2715          1    0.0    0.0     0.0    0.0
+  handleAnnounceRequest                                     Handlers.Announce         2704          0    0.0    0.0     0.0    0.0
+   getConfigField                                           Utils                     2749          1    0.0    0.0     0.0    0.0
+   handleAnnounceRequest.determineIPAddress                 Handlers.Announce         2705          0    0.0    0.0     0.0    0.0
+ CAF:bytesToRequest1                                        Converters.Requests       1498          0    0.0    0.0     0.0    0.0
+  bytesToRequest                                            Converters.Requests       2644          0    0.0    0.0     0.0    0.0
+ CAF:bytesToRequest2                                        Converters.Requests       1497          0    0.0    0.0     0.0    0.0
+  bytesToRequest                                            Converters.Requests       2645          0    0.0    0.0     0.0    0.0
+ CAF:bytesToRequest3                                        Converters.Requests       1496          0    0.0    0.0     0.0    0.0
+  bytesToRequest                                            Converters.Requests       2646          0    0.0    0.0     0.0    0.0
+ CAF                                                        Data.HashMap.Base         1469          0    0.0    0.0     0.0    0.0
+  bitsPerSubkey                                             Data.HashMap.Base         2692          1    0.0    0.0     0.0    0.0
+  empty                                                     Data.HashMap.Base         2691          1    0.0    0.0     0.0    0.0
+ CAF                                                        System.Random             1468          0    0.0    0.0     0.0    0.0
+  getStdRandom                                              System.Random             2651          1    0.0    0.0     0.0    0.0
+ CAF                                                        Network.Socket            1467          0    0.0    0.0     0.0    0.0
+  bind                                                      Network.Socket            2627          0    0.0    0.0     0.0    0.0
+  socket                                                    Network.Socket            2611          0    0.0    0.0     0.0    0.0
+  defaultProtocol                                           Network.Socket            2604          1    0.0    0.0     0.0    0.0
+  defaultHints                                              Network.Socket            2600          1    0.0    0.0     0.0    0.0
+ CAF                                                        Network.Socket.Internal   1465          0    0.0    0.0     0.0    0.0
+  throwSocketErrorIfMinus1_                                 Network.Socket.Internal   2831          1    0.0    0.0     0.0    0.0
+  throwSocketErrorIfMinus1Retry                             Network.Socket.Internal   2612          1    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.Conc.Signal           1370          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.IO.Encoding           1352          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.IO.Encoding.Iconv     1350          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.IO.Handle.FD          1341          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.IO.Handle.Text        1339          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.Event.KQueue          1297          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.Event.Poll            1294          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.Event.Thread          1293          0    0.0    0.0     0.0    0.0
+ CAF                                                        GHC.Integer.Type          1289          0    0.0    0.0     0.0    0.0
