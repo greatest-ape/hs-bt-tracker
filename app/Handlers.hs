@@ -41,10 +41,9 @@ handleRequest (ScrapeRequest requestInner) remoteAddress = do
         handleScrapeRequest requestInner
 
 -- Handle invalid request
-handleRequest InvalidRequest _ = do
-    return $ ErrorResponse $ ErrorResponseInner
-        (TransactionID 0)
-        "Error: invalid request"
+handleRequest InvalidRequest _ = return $ ErrorResponse $ ErrorResponseInner
+    (TransactionID 0)
+    "Error: invalid request"
 
 
 ifConnectionEstablished remoteAddress transactionID connectionID f = do
