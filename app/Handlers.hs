@@ -59,7 +59,7 @@ ifConnectionEstablished remoteAddress transactionID connectionID f = do
 
 -- Check if entry for combination of connectionID and ipAddress exists
 checkConnectionEstablished :: ConnectionID -> Socket.SockAddr -> AppM Bool
-checkConnectionEstablished connectionID remoteAddress = do
+checkConnectionEstablished connectionID remoteAddress =
     case getIPAddress remoteAddress of
         Just address -> Utils.getsConnectionMap $
             Map.member (ConnectionMapKey connectionID address)
