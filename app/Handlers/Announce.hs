@@ -24,7 +24,10 @@ import Types
 import Handlers.Common
 
 
-handleAnnounceRequest :: AnnounceRequestInner -> Socket.SockAddr -> AppM Response
+handleAnnounceRequest
+    :: AnnounceRequestInner
+    -> Socket.SockAddr
+    -> AppM Response
 handleAnnounceRequest innerRequest remoteAddress = do
     let transactionID = _transactionID (innerRequest :: AnnounceRequestInner)
         peersWanted   = _peersWanted   (innerRequest :: AnnounceRequestInner)
@@ -55,6 +58,10 @@ handleAnnounceRequest innerRequest remoteAddress = do
 
 
 
+alterPeerAndGetPeers
+    :: AnnounceRequestInner
+    -> IPAddress
+    -> AppM (Sequence.Seq Peer, Peer)
 alterPeerAndGetPeers innerRequest address = do
     let infoHash = _infoHash (innerRequest :: AnnounceRequestInner)
 
@@ -123,7 +130,12 @@ alterPeerSequence timestamp ipAddress innerRequest maybePeers =
                 )
 
 
-createPeer :: Timestamp -> IPAddress -> AnnounceRequestInner -> PeerStatus -> Peer
+createPeer
+    :: Timestamp
+    -> IPAddress
+    -> AnnounceRequestInner
+    -> PeerStatus
+    -> Peer
 createPeer timestamp ipAddress innerRequest defaultStatus =
     let AnnounceRequestInner {..} = innerRequest in Peer {
         _id             = _peerID,
@@ -147,7 +159,11 @@ getPeerStatus announceEvent bytesLeft defaultStatus
 
 
 -- Determine what peers should be sent to the current peer
-filterPeers :: Sequence.Seq Peer -> Peer -> PeersWanted -> AppM (Sequence.Seq Peer)
+filterPeers
+    :: Sequence.Seq Peer
+    -> Peer
+    -> PeersWanted
+    -> AppM (Sequence.Seq Peer)
 filterPeers processedPeers currentPeer peersWanted = do
     maximumPeersToSend <- Utils.getConfigField _maximumPeersToSend
 
@@ -179,6 +195,7 @@ filterPeers processedPeers currentPeer peersWanted = do
 
 
 -- Mix elements from two sequences
+mixSequences :: Sequence.Seq a -> Sequence.Seq a -> Sequence.Seq a
 mixSequences (Sequence.viewl -> x Sequence.:< xs) (Sequence.viewl -> y Sequence.:< ys) =
      x Sequence.<| y Sequence.<| mixSequences xs ys
 mixSequences (Sequence.viewl -> Sequence.EmptyL) ys = ys
