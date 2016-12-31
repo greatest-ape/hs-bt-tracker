@@ -47,11 +47,11 @@ handleRequest InvalidRequest _ = do
         "Error: invalid request"
 
 
-ifConnectionEstablished remoteAddress transactionID connectionID otherwise = do
+ifConnectionEstablished remoteAddress transactionID connectionID f = do
     connectionIsEstablished <- checkConnectionEstablished connectionID remoteAddress
 
     if connectionIsEstablished
-        then otherwise
+        then f
         else do
             return $ ErrorResponse $ ErrorResponseInner
                 transactionID
