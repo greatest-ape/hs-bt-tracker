@@ -1,5 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
-
 module Converters.Requests where
 
 import qualified Data.Binary.Get as Binary

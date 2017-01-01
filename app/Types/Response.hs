@@ -1,6 +1,3 @@
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE DuplicateRecordFields #-}
-
 -- Response and related data types
 module Types.Response where
 

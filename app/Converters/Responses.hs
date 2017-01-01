@@ -1,6 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE OverloadedStrings #-}
-
 module Converters.Responses where
 
 import qualified Data.Binary.Get as Binary

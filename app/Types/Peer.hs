@@ -1,5 +1,3 @@
-{-# LANGUAGE DuplicateRecordFields #-}
-
 -- Peer and related data types
 module Types.Peer where
 
