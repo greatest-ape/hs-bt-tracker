@@ -51,6 +51,7 @@ handleAnnounceRequest innerRequest remoteAddress = do
             "Your IP could not be determined"
 
     where
+        determineIPAddress :: AnnounceRequestInner -> Socket.SockAddr -> Maybe IPAddress
         determineIPAddress innerRequest remoteAddress =
             let ipAddress = _ipAddress (innerRequest :: AnnounceRequestInner)
             in if ipAddress /= 0
