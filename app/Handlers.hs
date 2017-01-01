@@ -21,24 +21,24 @@ import Handlers.Scrape
 handleRequest :: Request -> Socket.SockAddr -> AppM Response
 
 -- Handle connect request
-handleRequest (ConnectRequest requestInner) remoteAddress =
-    handleConnectRequest requestInner remoteAddress
+handleRequest (ConnectRequest innerRequest) remoteAddress =
+    handleConnectRequest innerRequest remoteAddress
 
 -- Handle announce request
-handleRequest (AnnounceRequest requestInner) remoteAddress = do
-    let transactionID = _transactionID (requestInner :: AnnounceRequestInner)
-        connectionID  = _connectionID  (requestInner :: AnnounceRequestInner)
+handleRequest (AnnounceRequest innerRequest) remoteAddress = do
+    let transactionID = _transactionID (innerRequest :: AnnounceRequestInner)
+        connectionID  = _connectionID  (innerRequest :: AnnounceRequestInner)
 
     ifConnectionEstablished remoteAddress transactionID connectionID $
-        handleAnnounceRequest requestInner remoteAddress
+        handleAnnounceRequest innerRequest remoteAddress
 
 -- Handle scrape request
-handleRequest (ScrapeRequest requestInner) remoteAddress = do
-    let transactionID = _transactionID (requestInner :: ScrapeRequestInner)
-        connectionID  = _connectionID  (requestInner :: ScrapeRequestInner)
+handleRequest (ScrapeRequest innerRequest) remoteAddress = do
+    let transactionID = _transactionID (innerRequest :: ScrapeRequestInner)
+        connectionID  = _connectionID  (innerRequest :: ScrapeRequestInner)
 
     ifConnectionEstablished remoteAddress transactionID connectionID $
-        handleScrapeRequest requestInner
+        handleScrapeRequest innerRequest
 
 -- Handle invalid request
 handleRequest InvalidRequest _ = return $ ErrorResponse $ ErrorResponseInner
