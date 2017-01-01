@@ -35,15 +35,16 @@ handleAnnounceRequest innerRequest remoteAddress = do
     case determineIPAddress innerRequest remoteAddress of
         Just address -> do
             (processedPeers, currentPeer) <- alterPeerAndGetPeers innerRequest address
-            peers <- filterPeers processedPeers currentPeer peersWanted
+            filteredPeers <- filterPeers processedPeers currentPeer peersWanted
+
             announceInterval <- Utils.getConfigField _announceInterval
 
             return $ AnnounceResponse $ AnnounceResponseInner {
                 _transactionID  = transactionID,
                 _interval       = AnnounceInterval announceInterval,
-                _leechers       = fromIntegral $ countLeechers peers,
-                _seeders        = fromIntegral $ countSeeders peers,
-                _peers          = peers
+                _leechers       = fromIntegral $ countLeechers filteredPeers,
+                _seeders        = fromIntegral $ countSeeders filteredPeers,
+                _peers          = filteredPeers
             }
         Nothing -> return $ ErrorResponse $ ErrorResponseInner
             transactionID
