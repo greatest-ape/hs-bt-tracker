@@ -2,6 +2,7 @@
 
 ## Important
 
+  - Write tests for shuffleSequence
   - Check for ConnectionID collisions
   - Rename newtypes XID to XId
   - Read config from a file
