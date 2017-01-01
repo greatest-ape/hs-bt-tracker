@@ -52,9 +52,9 @@ newtype AnnounceInterval = AnnounceInterval Int32
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
 
 data TorrentScrapeStatistics = TorrentScrapeStatistics {
-    _seeders     :: NumberOfSeeders,
-    _completed   :: NumberOfDownloads,
-    _leechers    :: NumberOfLeechers
+    _seeders     :: !NumberOfSeeders,
+    _completed   :: !NumberOfDownloads,
+    _leechers    :: !NumberOfLeechers
 } deriving (Show)
 
 newtype NumberOfSeeders = NumberOfSeeders Int32
