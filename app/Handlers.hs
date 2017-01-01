@@ -21,7 +21,7 @@ import Handlers.Scrape
 handleRequest :: Request -> Socket.SockAddr -> AppM Response
 
 -- Handle connect request
-handleRequest (ConnectRequest requestInner) remoteAddress = do
+handleRequest (ConnectRequest requestInner) remoteAddress =
     handleConnectRequest requestInner remoteAddress
 
 -- Handle announce request
@@ -29,7 +29,7 @@ handleRequest (AnnounceRequest requestInner) remoteAddress = do
     let transactionID = _transactionID (requestInner :: AnnounceRequestInner)
         connectionID  = _connectionID  (requestInner :: AnnounceRequestInner)
 
-    ifConnectionEstablished remoteAddress transactionID connectionID $ do
+    ifConnectionEstablished remoteAddress transactionID connectionID $
         handleAnnounceRequest requestInner remoteAddress
 
 -- Handle scrape request
@@ -37,7 +37,7 @@ handleRequest (ScrapeRequest requestInner) remoteAddress = do
     let transactionID = _transactionID (requestInner :: ScrapeRequestInner)
         connectionID  = _connectionID  (requestInner :: ScrapeRequestInner)
 
-    ifConnectionEstablished remoteAddress transactionID connectionID $ do
+    ifConnectionEstablished remoteAddress transactionID connectionID $
         handleScrapeRequest requestInner
 
 -- Handle invalid request
@@ -51,7 +51,7 @@ ifConnectionEstablished remoteAddress transactionID connectionID f = do
 
     if connectionIsEstablished
         then f
-        else do
+        else
             return $ ErrorResponse $ ErrorResponseInner
                 transactionID
                 "Error: no connection is established"
