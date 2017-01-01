@@ -46,6 +46,12 @@ handleRequest InvalidRequest _ = return $ ErrorResponse $ ErrorResponseInner
     "Error: invalid request"
 
 
+ifConnectionEstablished
+    :: Socket.SockAddr
+    -> TransactionID
+    -> ConnectionID
+    -> AppM Response
+    -> AppM Response
 ifConnectionEstablished remoteAddress transactionID connectionID f = do
     connectionIsEstablished <- checkConnectionEstablished connectionID remoteAddress
 
