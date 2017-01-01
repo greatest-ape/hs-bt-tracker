@@ -54,7 +54,7 @@ handleAnnounceRequest innerRequest remoteAddress = do
         determineIPAddress innerRequest remoteAddress =
             let ipAddress = _ipAddress (innerRequest :: AnnounceRequestInner)
             in if ipAddress /= 0
-                then Just $ IPAddress $ fromIntegral ipAddress
+                then Just $ fromIntegral ipAddress
                 else getIPAddress remoteAddress
 
 
