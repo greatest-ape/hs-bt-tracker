@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 -- hs-bt-tracker: Haskell UDP BitTorrent tracker
 -- Copyright (c) 2016-2017 Joakim Frostegård <joakim.frostegard@gmail.com>
 --

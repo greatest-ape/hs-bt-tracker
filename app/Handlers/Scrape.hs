@@ -1,3 +1,6 @@
+{-# LANGUAGE DuplicateRecordFields #-}
+{-# LANGUAGE OverloadedStrings #-}
+
 module Handlers.Scrape (
     handleScrapeRequest
 ) where
