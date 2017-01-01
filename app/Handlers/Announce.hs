@@ -42,8 +42,8 @@ handleAnnounceRequest innerRequest remoteAddress = do
             return $ AnnounceResponse $ AnnounceResponseInner {
                 _transactionID  = transactionID,
                 _interval       = AnnounceInterval announceInterval,
-                _leechers       = fromIntegral $ countLeechers filteredPeers,
-                _seeders        = fromIntegral $ countSeeders filteredPeers,
+                _leechers       = countLeechers filteredPeers,
+                _seeders        = countSeeders filteredPeers,
                 _peers          = filteredPeers
             }
         Nothing -> return $ ErrorResponse $ ErrorResponseInner

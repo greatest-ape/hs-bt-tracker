@@ -12,11 +12,13 @@ import Control.Monad (forM)
 import Types
 
 
-countLeechers :: Sequence.Seq Peer -> Int
-countLeechers peers = Sequence.length $ Sequence.filter (== PeerLeeching) $ fmap _status peers
+countLeechers :: Sequence.Seq Peer -> NumberOfLeechers
+countLeechers peers = fromIntegral <$>
+    Sequence.length $ Sequence.filter (\peer -> _status peer == PeerLeeching) peers
 
-countSeeders :: Sequence.Seq Peer -> Int
-countSeeders peers = Sequence.length $ Sequence.filter (== PeerSeeding) $ fmap _status peers
+countSeeders :: Sequence.Seq Peer -> NumberOfSeeders
+countSeeders peers = fromIntegral <$>
+    Sequence.length $ Sequence.filter (\peer -> _status peer == PeerSeeding) peers
 
 getIPAddress :: Socket.SockAddr -> Maybe IPAddress
 getIPAddress (Socket.SockAddrInet _ address) = Just $ IPAddress address

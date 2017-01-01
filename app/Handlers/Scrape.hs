@@ -42,7 +42,7 @@ getPeerLists infoHashes = do
 
 buildStats :: Sequence.Seq Peer -> TorrentScrapeStatistics
 buildStats peers = TorrentScrapeStatistics {
-    _seeders     = NumberOfSeeders $ fromIntegral $ countSeeders peers,
+    _seeders     = countSeeders peers,
     _completed   = NumberOfDownloads 0, -- Not implemented
-    _leechers    = NumberOfLeechers $ fromIntegral $ countLeechers peers
+    _leechers    = countLeechers peers
 }
