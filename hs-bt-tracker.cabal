@@ -45,6 +45,22 @@ executable hs-bt-tracker
                      , OverloadedStrings
                      , RecordWildCards
                      , ViewPatterns
+  other-modules:       Converters
+                     , Converters.Common
+                     , Converters.Requests
+                     , Converters.Responses
+                     , Handlers
+                     , Handlers.Announce
+                     , Handlers.Common
+                     , Handlers.Connect
+                     , Handlers.Scrape
+                     , Types
+                     , Types.Common
+                     , Types.Peer
+                     , Types.Request
+                     , Types.Response
+                     , Types.Server
+                     , Utils
 
 test-suite simple-test
   type:                exitcode-stdio-1.0
