@@ -3,8 +3,6 @@
 -- Peer and related data types
 module Types.Peer where
 
-import Data.Word (Word32)
-
 import Types.Common
 
 
