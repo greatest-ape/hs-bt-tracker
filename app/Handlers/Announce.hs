@@ -188,8 +188,7 @@ filterPeers processedPeers currentPeer peersWanted = do
         -- requesting peer
         else Sequence.take peersToSend <$> case _status (currentPeer :: Peer) of
             -- Leechers should be sent a pseudorandom mix of seeders and leechers
-            PeerLeeching -> Sequence.fromList <$>
-                (liftIO $ shuffleList $ toList $ mixSequences seeders leechers)
+            PeerLeeching -> liftIO $ shuffleSequence $ mixSequences seeders leechers
 
             -- Seeders should mainly be sent leechers. For stopped peers,
             -- it doesn't matter what is sent
@@ -204,19 +203,22 @@ mixSequences (Sequence.viewl -> Sequence.EmptyL) ys = ys
 mixSequences xs (Sequence.viewl -> Sequence.EmptyL) = xs
 
 
--- | Randomly shuffle a list
+-- | Randomly shuffle a sequence
 --   /O(N)/
---   from https://wiki.haskell.org/Random_shuffle
-shuffleList :: [a] -> IO [a]
-shuffleList xs = do
-    ar <- newArray n xs
-    forM [1..n] $ \i -> do
-        j <- randomRIO (i,n)
+--   inspired by https://wiki.haskell.org/Random_shuffle
+--   Needs to be tested (for Seq monad semantics)
+shuffleSequence :: Sequence.Seq a -> IO (Sequence.Seq a)
+shuffleSequence xs = do
+    let n = length xs
+
+    ar <- newArray n $ toList xs
+    forM (Sequence.fromList [1..n]) $ \i -> do
+        j  <- randomRIO (i,n)
         vi <- readArray ar i
         vj <- readArray ar j
         writeArray ar j vi
         return vj
+
     where
-        n = length xs
         newArray :: Int -> [a] -> IO (IOArray Int a)
         newArray n xs =  newListArray (1,n) xs
