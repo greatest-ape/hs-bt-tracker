@@ -27,18 +27,23 @@ import Types
 
 -- * Helpers for server state fields including STM TVars
 
+getConfigField :: (Config -> a) -> AppM a
 getConfigField f = f <$> asks _config
 
 
+getTorrentMap :: AppM TorrentMapInner
 getTorrentMap = (\(TorrentMap tm) -> tm) <$> getStateSTMField _torrentMap
 
+withTorrentMap :: (TorrentMapInner -> TorrentMapInner) -> AppM ()
 withTorrentMap f = withStateSTMField _torrentMap $ g f
     where g f (TorrentMap tm) = TorrentMap $ f tm
 
 
+getsConnectionMap :: (ConnectionMapInner -> a) -> AppM a
 getsConnectionMap f =
     (\(ConnectionMap cm) -> f cm) <$> getStateSTMField _connectionMap
 
+withConnectionMap :: (ConnectionMapInner -> ConnectionMapInner) -> AppM ()
 withConnectionMap f = withStateSTMField _connectionMap $ g f
     where g f (ConnectionMap cm) = ConnectionMap $ f cm
 
@@ -46,6 +51,7 @@ withConnectionMap f = withStateSTMField _connectionMap $ g f
 getThreadIds :: AppM [ThreadId]
 getThreadIds = asks _threadIds >>= liftIO . STM.atomically . STM.readTVar
 
+withThreadIds :: ([ThreadId] -> [ThreadId]) -> AppM ()
 withThreadIds f = withStateSTMField _threadIds f
 
 

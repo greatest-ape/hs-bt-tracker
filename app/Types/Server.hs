@@ -30,7 +30,9 @@ data Config = Config {
     _peerPruneInterval       :: Int
 }
 
-newtype TorrentMap = TorrentMap (Map.HashMap InfoHash (Sequence.Seq Peer))
+type TorrentMapInner = Map.HashMap InfoHash (Sequence.Seq Peer)
+
+newtype TorrentMap = TorrentMap TorrentMapInner
     deriving (Show)
 
 data ConnectionMapKey = ConnectionMapKey !ConnectionID !IPAddress
@@ -39,7 +41,9 @@ data ConnectionMapKey = ConnectionMapKey !ConnectionID !IPAddress
 instance Hashable ConnectionMapKey where
     hashWithSalt salt (ConnectionMapKey (ConnectionID n) (IPAddress m)) = hashWithSalt salt (n, m)
 
-newtype ConnectionMap = ConnectionMap (Map.HashMap ConnectionMapKey Timestamp)
+type ConnectionMapInner = Map.HashMap ConnectionMapKey Timestamp
+
+newtype ConnectionMap = ConnectionMap ConnectionMapInner
     deriving (Show)
 
 data State = State {
