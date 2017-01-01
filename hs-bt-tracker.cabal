@@ -39,7 +39,7 @@ executable hs-bt-tracker
                      , unix
                      , unordered-containers
   default-language:    Haskell2010
-  extensions:          DeriveGeneric
+  default-extensions:  DeriveGeneric
                      , DuplicateRecordFields
                      , GeneralizedNewtypeDeriving
                      , OverloadedStrings
