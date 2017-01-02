@@ -45,6 +45,12 @@ compareShuffledSequence xs f = QC.monadicIO $ do
 
 -- * Request / Response converters
 
+-- Needs something like
+-- http://stackoverflow.com/questions/16440208/how-to-generate-arbitrary-instances-of-a-simple-type-for-quickcheck
+
+-- Although we need to consider that announce response peers should only
+-- be compared on the IP and port fields
+
 testRequestConverters :: Request -> Bool
 testRequestConverters request1 =
     case Converters.bytesToRequest $ Converters.requestToBytes request1 of
