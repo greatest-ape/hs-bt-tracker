@@ -1,2 +1,2 @@
 #!/bin/bash
-stack build && stack exec -- hs-bt-tracker +RTS -N
+stack build && stack exec -- hs-bt-tracker-bin +RTS -N
