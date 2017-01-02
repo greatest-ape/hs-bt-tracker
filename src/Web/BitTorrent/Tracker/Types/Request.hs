@@ -18,10 +18,12 @@ data Request
     | ScrapeRequest ScrapeRequestInner
     | InvalidRequest
 
+    deriving (Show, Eq)
+
 
 data ConnectRequestInner = ConnectRequestInner {
     _transactionID    :: !TransactionID
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 data AnnounceRequestInner = AnnounceRequestInner {
@@ -37,14 +39,14 @@ data AnnounceRequestInner = AnnounceRequestInner {
     _key             :: !PeerKey,
     _peersWanted     :: !PeersWanted,
     _port            :: !PeerPort
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 data ScrapeRequestInner = ScrapeRequestInner {
     _connectionID      :: !ConnectionID,
     _transactionID     :: !TransactionID,
     _infoHashes        :: !(Sequence.Seq InfoHash)
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 data AnnounceEvent

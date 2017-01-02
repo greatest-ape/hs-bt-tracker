@@ -20,11 +20,13 @@ data Response
     | ErrorResponse ErrorResponseInner
     | NoResponse
 
+    deriving (Show, Eq)
+
 
 data ConnectResponseInner = ConnectResponseInner {
     _connectionID    :: !ConnectionID,
     _transactionID   :: !TransactionID
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 data AnnounceResponseInner = AnnounceResponseInner {
@@ -33,19 +35,19 @@ data AnnounceResponseInner = AnnounceResponseInner {
     _leechers       :: !NumberOfLeechers,
     _seeders        :: !NumberOfSeeders,
     _peers          :: !(Sequence.Seq Peer)
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 data ScrapeResponseInner = ScrapeResponseInner {
     _transactionID        :: !TransactionID,
     _torrentStatistics    :: !(Sequence.Seq TorrentScrapeStatistics)
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 data ErrorResponseInner = ErrorResponseInner {
     _transactionID     :: !TransactionID,
     _message           :: !BS.ByteString
-} deriving (Show)
+} deriving (Show, Eq)
 
 
 newtype AnnounceInterval = AnnounceInterval Int32
@@ -55,7 +57,7 @@ data TorrentScrapeStatistics = TorrentScrapeStatistics {
     _seeders     :: !NumberOfSeeders,
     _completed   :: !NumberOfDownloads,
     _leechers    :: !NumberOfLeechers
-} deriving (Show)
+} deriving (Show, Eq)
 
 newtype NumberOfSeeders = NumberOfSeeders Int32
     deriving (Show, Eq, Ord, Num, Enum, Real, Integral)
