@@ -1,7 +1,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Converters.Responses where
+module Web.BitTorrent.Tracker.Converters.Responses where
 
 import qualified Data.Binary.Get as Binary
 import qualified Data.Binary.Put as Binary
@@ -11,9 +11,9 @@ import qualified Data.ByteString.Lazy as LBS
 import Control.Monad (forM_)
 import Data.Word (Word32)
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
-import Converters.Common
+import Web.BitTorrent.Tracker.Converters.Common
 
 
 responseToBytes :: Response -> BS.ByteString

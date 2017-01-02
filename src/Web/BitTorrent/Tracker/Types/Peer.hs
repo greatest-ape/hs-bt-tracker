@@ -1,9 +1,9 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 
 -- Peer and related data types
-module Types.Peer where
+module Web.BitTorrent.Tracker.Types.Peer where
 
-import Types.Common
+import Web.BitTorrent.Tracker.Types.Common
 
 
 data Peer = Peer {

@@ -2,15 +2,15 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 
 -- Response and related data types
-module Types.Response where
+module Web.BitTorrent.Tracker.Types.Response where
 
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.Sequence as Sequence
 
 import Data.Int (Int32)
 
-import Types.Common
-import Types.Peer
+import Web.BitTorrent.Tracker.Types.Common
+import Web.BitTorrent.Tracker.Types.Peer
 
 
 data Response

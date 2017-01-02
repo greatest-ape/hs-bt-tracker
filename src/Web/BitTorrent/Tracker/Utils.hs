@@ -1,4 +1,4 @@
-module Utils (
+module Web.BitTorrent.Tracker.Utils (
     getConfigField,
     getTorrentMap,
     withTorrentMap,
@@ -22,7 +22,7 @@ import Control.Monad.IO.Class (liftIO)
 import Control.Monad.Trans.Reader (ReaderT, runReaderT, ask, asks)
 import Data.Time.Clock.POSIX (getPOSIXTime)
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
 
 -- * Helpers for server state fields including STM TVars

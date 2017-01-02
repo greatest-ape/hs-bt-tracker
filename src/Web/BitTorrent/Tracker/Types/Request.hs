@@ -3,13 +3,13 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 
 -- Request and related data types
-module Types.Request where
+module Web.BitTorrent.Tracker.Types.Request where
 
 import qualified Data.Sequence as Sequence
 
 import Data.Int (Int32, Int64)
 
-import Types.Common
+import Web.BitTorrent.Tracker.Types.Common
 
 
 data Request

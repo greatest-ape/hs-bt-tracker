@@ -1,7 +1,7 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Handlers.Connect (
+module Web.BitTorrent.Tracker.Handlers.Connect (
     handleConnectRequest
 ) where
 
@@ -12,11 +12,11 @@ import Control.Monad.IO.Class (liftIO)
 import Data.Int (Int64)
 import System.Random (randomIO)
 
-import qualified Utils
+import qualified Web.BitTorrent.Tracker.Utils as Utils
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
-import Handlers.Common
+import Web.BitTorrent.Tracker.Handlers.Common
 
 
 handleConnectRequest :: ConnectRequestInner -> Socket.SockAddr -> AppM Response

@@ -1,7 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 -- General data types and instances
-module Types.Common where
+module Web.BitTorrent.Tracker.Types.Common where
 
 import qualified Data.ByteString.Char8 as BS
 

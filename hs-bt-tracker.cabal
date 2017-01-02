@@ -15,14 +15,23 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Lib
-  build-depends:       base >= 4.7 && < 5
-  default-language:    Haskell2010
-
-executable hs-bt-tracker
-  hs-source-dirs:      app
-  main-is:             Main.hs
-  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -O
+  exposed-modules:     Web.BitTorrent.Tracker.Tracker
+  other-modules:       Web.BitTorrent.Tracker.Converters
+                     , Web.BitTorrent.Tracker.Converters.Common
+                     , Web.BitTorrent.Tracker.Converters.Requests
+                     , Web.BitTorrent.Tracker.Converters.Responses
+                     , Web.BitTorrent.Tracker.Handlers
+                     , Web.BitTorrent.Tracker.Handlers.Announce
+                     , Web.BitTorrent.Tracker.Handlers.Common
+                     , Web.BitTorrent.Tracker.Handlers.Connect
+                     , Web.BitTorrent.Tracker.Handlers.Scrape
+                     , Web.BitTorrent.Tracker.Types
+                     , Web.BitTorrent.Tracker.Types.Common
+                     , Web.BitTorrent.Tracker.Types.Peer
+                     , Web.BitTorrent.Tracker.Types.Request
+                     , Web.BitTorrent.Tracker.Types.Response
+                     , Web.BitTorrent.Tracker.Types.Server
+                     , Web.BitTorrent.Tracker.Utils
   build-depends:       array
                      , base
                      , binary
@@ -39,28 +48,14 @@ executable hs-bt-tracker
                      , unix
                      , unordered-containers
   default-language:    Haskell2010
---default-extensions:  DeriveGeneric
---                   , DuplicateRecordFields
---                   , GeneralizedNewtypeDeriving
---                   , OverloadedStrings
---                   , RecordWildCards
---                   , ViewPatterns
-  other-modules:       Converters
-                     , Converters.Common
-                     , Converters.Requests
-                     , Converters.Responses
-                     , Handlers
-                     , Handlers.Announce
-                     , Handlers.Common
-                     , Handlers.Connect
-                     , Handlers.Scrape
-                     , Types
-                     , Types.Common
-                     , Types.Peer
-                     , Types.Request
-                     , Types.Response
-                     , Types.Server
-                     , Utils
+
+executable hs-bt-tracker-bin
+  hs-source-dirs:      app
+  main-is:             Main.hs
+  ghc-options:         -threaded -rtsopts -with-rtsopts=-N -O
+  build-depends:       base
+                     , hs-bt-tracker
+  default-language:    Haskell2010
 
 test-suite simple-test
   type:                exitcode-stdio-1.0

@@ -1,15 +1,15 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 
-module Converters.Requests where
+module Web.BitTorrent.Tracker.Converters.Requests where
 
 import qualified Data.Binary.Get as Binary
 import qualified Data.Binary.Put as Binary
 import qualified Data.ByteString.Char8 as BS
 import qualified Data.ByteString.Lazy as LBS
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
-import Converters.Common
+import Web.BitTorrent.Tracker.Converters.Common
 
 
 requestToBytes :: Request -> BS.ByteString

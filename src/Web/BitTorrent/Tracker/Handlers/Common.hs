@@ -2,14 +2,14 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ViewPatterns #-}
 
-module Handlers.Common where
+module Web.BitTorrent.Tracker.Handlers.Common where
 
 import qualified Data.Sequence as Sequence
 import qualified Network.Socket as Socket
 
 import Control.Monad (forM)
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
 
 countLeechers :: Sequence.Seq Peer -> NumberOfLeechers

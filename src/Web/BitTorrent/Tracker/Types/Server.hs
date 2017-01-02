@@ -1,4 +1,4 @@
-module Types.Server where
+module Web.BitTorrent.Tracker.Types.Server where
 
 import qualified Control.Concurrent.STM as STM
 import qualified Control.Concurrent.MVar as MVar
@@ -11,8 +11,8 @@ import Data.Hashable (Hashable, hashWithSalt)
 import Data.Int (Int32)
 import Data.Word (Word16)
 
-import Types.Common
-import Types.Peer
+import Web.BitTorrent.Tracker.Types.Common
+import Web.BitTorrent.Tracker.Types.Peer
 
 
 data Config = Config {

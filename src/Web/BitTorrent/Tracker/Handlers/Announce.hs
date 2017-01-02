@@ -3,7 +3,7 @@
 {-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE ViewPatterns #-}
 
-module Handlers.Announce where
+module Web.BitTorrent.Tracker.Handlers.Announce where
 
 import qualified Control.Concurrent.STM as STM
 import qualified Data.HashMap.Strict as Map
@@ -17,11 +17,11 @@ import Data.Array.IO (readArray, writeArray, newListArray, IOArray)
 import Data.Foldable (toList)
 import System.Random (randomIO, randomRIO)
 
-import qualified Utils
+import qualified Web.BitTorrent.Tracker.Utils as Utils
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
-import Handlers.Common
+import Web.BitTorrent.Tracker.Handlers.Common
 
 
 handleAnnounceRequest

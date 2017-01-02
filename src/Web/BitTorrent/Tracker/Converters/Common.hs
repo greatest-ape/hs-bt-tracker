@@ -1,4 +1,4 @@
-module Converters.Common where
+module Web.BitTorrent.Tracker.Converters.Common where
 
 import qualified Data.Binary.Get as Binary
 import qualified Data.Sequence as Sequence

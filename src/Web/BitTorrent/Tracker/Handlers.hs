@@ -1,21 +1,21 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Handlers (
+module Web.BitTorrent.Tracker.Handlers (
     handleRequest
 ) where
 
 import qualified Data.HashMap.Strict as Map
 import qualified Network.Socket as Socket
 
-import qualified Utils
+import qualified Web.BitTorrent.Tracker.Utils as Utils
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
-import Handlers.Common
-import Handlers.Announce
-import Handlers.Connect
-import Handlers.Scrape
+import Web.BitTorrent.Tracker.Handlers.Common
+import Web.BitTorrent.Tracker.Handlers.Announce
+import Web.BitTorrent.Tracker.Handlers.Connect
+import Web.BitTorrent.Tracker.Handlers.Scrape
 
 
 handleRequest :: Request -> Socket.SockAddr -> AppM Response

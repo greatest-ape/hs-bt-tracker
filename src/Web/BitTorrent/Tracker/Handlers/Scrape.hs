@@ -1,18 +1,18 @@
 {-# LANGUAGE DuplicateRecordFields #-}
 {-# LANGUAGE OverloadedStrings #-}
 
-module Handlers.Scrape (
+module Web.BitTorrent.Tracker.Handlers.Scrape (
     handleScrapeRequest
 ) where
 
 import qualified Data.HashMap.Strict as Map
 import qualified Data.Sequence as Sequence
 
-import qualified Utils
+import qualified Web.BitTorrent.Tracker.Utils as Utils
 
-import Types
+import Web.BitTorrent.Tracker.Types
 
-import Handlers.Common
+import Web.BitTorrent.Tracker.Handlers.Common
 
 
 handleScrapeRequest :: ScrapeRequestInner -> AppM Response
