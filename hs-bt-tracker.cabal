@@ -16,7 +16,7 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Web.BitTorrent.Tracker.Tracker
-  other-modules:       Web.BitTorrent.Tracker.Converters
+                     , Web.BitTorrent.Tracker.Converters
                      , Web.BitTorrent.Tracker.Converters.Common
                      , Web.BitTorrent.Tracker.Converters.Requests
                      , Web.BitTorrent.Tracker.Converters.Responses
