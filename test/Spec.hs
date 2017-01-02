@@ -16,7 +16,7 @@ main = putStrLn "No tests implemented yet"
 
 -- * Handlers.Announce.shuffleSequence
 
-testShuffleSequenceLength :: Eq a => Sequence.Seq a -> QC.Property
+testShuffleSequenceLength :: Sequence.Seq a -> QC.Property
 testShuffleSequenceLength xs = compareShuffledSequence xs Sequence.length
 
 
@@ -25,8 +25,7 @@ shuffleSequenceSortTest xs = compareShuffledSequence xs Sequence.unstableSort
 
 
 compareShuffledSequence
-    :: Eq a
-    => Eq b
+    :: Eq b
     => Sequence.Seq a
     -> (Sequence.Seq a -> b)
     -> QC.Property
