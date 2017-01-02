@@ -10,18 +10,26 @@ import Web.BitTorrent.Tracker.Handlers.Announce (shuffleSequence)
 
 
 main :: IO ()
-main = putStrLn "No tests implemented yet"
+main = do
+    QC.quickCheck testShuffleSequenceLengthInt
+    QC.quickCheck testShuffleSequenceSortInt
 
 
 
 -- * Handlers.Announce.shuffleSequence
 
+testShuffleSequenceLengthInt :: Sequence.Seq Int -> QC.Property
+testShuffleSequenceLengthInt = testShuffleSequenceLength
+
 testShuffleSequenceLength :: Sequence.Seq a -> QC.Property
 testShuffleSequenceLength xs = compareShuffledSequence xs Sequence.length
 
 
-shuffleSequenceSortTest :: Ord a => Sequence.Seq a -> QC.Property
-shuffleSequenceSortTest xs = compareShuffledSequence xs Sequence.unstableSort
+testShuffleSequenceSortInt :: Sequence.Seq Int -> QC.Property
+testShuffleSequenceSortInt = testShuffleSequenceSort
+
+testShuffleSequenceSort :: Ord a => Sequence.Seq a -> QC.Property
+testShuffleSequenceSort xs = compareShuffledSequence xs Sequence.unstableSort
 
 
 compareShuffledSequence
