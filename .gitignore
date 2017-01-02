@@ -1,4 +1,5 @@
 .stack-work
 .swp
 .idea
-hs-bt-tracker.prof
+hs-bt-tracker-bin.prof
+*.DS_Store
