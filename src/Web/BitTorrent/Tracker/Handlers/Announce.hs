@@ -206,7 +206,6 @@ mixSequences xs (Sequence.viewl -> Sequence.EmptyL) = xs
 -- | Randomly shuffle a sequence
 --   /O(N)/
 --   inspired by https://wiki.haskell.org/Random_shuffle
---   Needs to be tested (for Seq monad semantics)
 shuffleSequence :: Sequence.Seq a -> IO (Sequence.Seq a)
 shuffleSequence xs = do
     let n = length xs
