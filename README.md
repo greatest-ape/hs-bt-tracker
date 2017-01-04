@@ -1,7 +1,7 @@
 # hs-bt-tracker: Haskell UDP BitTorrent Tracker
 
-Proof-of-concept UDP BitTorrent tracker written in Haskell. I get about 10k
-responses per second on my laptop (Intel i7-3820QM, 16GB RAM, macOS Yosemite).
+Proof-of-concept UDP BitTorrent tracker written in Haskell. I get about 130k
+responses per second on commodity hardware (i5-2400 running Ubuntu 16.04).
 
 Aims towards implementing the protocol available at
 http://www.libtorrent.org/udp_tracker_protocol.html.
