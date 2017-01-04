@@ -9,7 +9,7 @@ http://www.libtorrent.org/udp_tracker_protocol.html.
 Doesn't support black- or whitelisting.
 
 This is more or less a refactored version of a tracker prototype I developed
-and later [rewrote in Rust](https://github.com/greatest-ape/rs_bt_tracker).
+in Haskell and later [rewrote in Rust](https://github.com/greatest-ape/rs_bt_tracker).
 That one has more features, a lot better performance and better tests.
 
 I might still make improvements to `hs-bt-tracker`, but the Rust project is
